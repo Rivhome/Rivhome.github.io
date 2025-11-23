@@ -19,16 +19,17 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.26.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
 
-    <meta name="description" content="没问题！既然你说是初学者，那我们就把所有”默认你懂”的步骤都拆解开，手把手带你走一遍。 这个方案的目标是：在 30 分钟内，让你的博客在互联网上可以通过链接访问。 我们采用 Hexo (博客框架) + GitHub Pages (免费服务器) 的组合。  第一阶段：准备工作 (环境搭建)就像盖房子前要准备砖头和水泥，你需要先安装两个程序员必备工具。  安装 Node.js (为了运行 Hexo)">
+    <meta name="description" content="💻 零成本打造你的极客博客：Hexo + GitHub Pages 完整指南作为一名学习计算机的学生，搭建个人博客是展示技术能力、沉淀学习笔记的最佳实践。本指南将带你从零开始，使用 Hexo (静态博客框架) + GitHub Pages (免费托管) 方案，打造一个高度定制化的技术博客，整个过程完全免费。 🚀 核心方案概述   角色 技术栈 作用 成本 适合人群    框架 Hexo (No">
 <meta property="og:type" content="article">
 <meta property="og:title" content="如何搭建个人博客：hexo + githubpages">
 <meta property="og:url" content="http://example.com/2025/11/23/%E5%A6%82%E4%BD%95%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%9Ahexo-githubpages/index.html">
 <meta property="og:site_name" content="Rivhome&#39;s Blog">
-<meta property="og:description" content="没问题！既然你说是初学者，那我们就把所有”默认你懂”的步骤都拆解开，手把手带你走一遍。 这个方案的目标是：在 30 分钟内，让你的博客在互联网上可以通过链接访问。 我们采用 Hexo (博客框架) + GitHub Pages (免费服务器) 的组合。  第一阶段：准备工作 (环境搭建)就像盖房子前要准备砖头和水泥，你需要先安装两个程序员必备工具。  安装 Node.js (为了运行 Hexo)">
+<meta property="og:description" content="💻 零成本打造你的极客博客：Hexo + GitHub Pages 完整指南作为一名学习计算机的学生，搭建个人博客是展示技术能力、沉淀学习笔记的最佳实践。本指南将带你从零开始，使用 Hexo (静态博客框架) + GitHub Pages (免费托管) 方案，打造一个高度定制化的技术博客，整个过程完全免费。 🚀 核心方案概述   角色 技术栈 作用 成本 适合人群    框架 Hexo (No">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-11-23T05:01:29.000Z">
-<meta property="article:modified_time" content="2025-11-23T05:03:21.860Z">
+<meta property="article:modified_time" content="2025-11-23T06:00:53.257Z">
 <meta property="article:author" content="Rivhome">
+<meta property="article:tag" content="博客搭建">
 <meta name="twitter:card" content="summary">
 
 
@@ -121,7 +122,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E9%98%B6%E6%AE%B5%EF%BC%9A%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C-%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="nav-number">1.</span> <span class="nav-text">第一阶段：准备工作 (环境搭建)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5%EF%BC%9A%E6%90%AD%E5%BB%BA%E6%9C%AC%E5%9C%B0%E5%8D%9A%E5%AE%A2"><span class="nav-number">2.</span> <span class="nav-text">第二阶段：搭建本地博客</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E9%98%B6%E6%AE%B5%EF%BC%9A%E8%BF%9E%E6%8E%A5%E5%88%B0%E4%BA%92%E8%81%94%E7%BD%91-%E9%83%A8%E7%BD%B2%E5%88%B0-GitHub"><span class="nav-number">3.</span> <span class="nav-text">第三阶段：连接到互联网 (部署到 GitHub)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E5%9B%9B%E9%98%B6%E6%AE%B5%EF%BC%9A%E8%A7%81%E8%AF%81%E5%A5%87%E8%BF%B9"><span class="nav-number">4.</span> <span class="nav-text">第四阶段：见证奇迹</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A5%E5%90%8E%E6%80%8E%E4%B9%88%E5%86%99%E6%96%87%E7%AB%A0%EF%BC%9F-%E6%97%A5%E5%B8%B8%E4%BD%BF%E7%94%A8%E6%B5%81%E7%A8%8B"><span class="nav-number">5.</span> <span class="nav-text">以后怎么写文章？ (日常使用流程)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%99%E8%BD%AF%E5%B7%A5%E6%96%B0%E6%89%8B%E7%9A%84%E7%89%B9%E5%88%AB%E5%BB%BA%E8%AE%AE"><span class="nav-number">6.</span> <span class="nav-text">给软工新手的特别建议</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%92%BB-%E9%9B%B6%E6%88%90%E6%9C%AC%E6%89%93%E9%80%A0%E4%BD%A0%E7%9A%84%E6%9E%81%E5%AE%A2%E5%8D%9A%E5%AE%A2%EF%BC%9AHexo-GitHub-Pages-%E5%AE%8C%E6%95%B4%E6%8C%87%E5%8D%97"><span class="nav-number">1.</span> <span class="nav-text">💻 零成本打造你的极客博客：Hexo + GitHub Pages 完整指南</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%F0%9F%9A%80-%E6%A0%B8%E5%BF%83%E6%96%B9%E6%A1%88%E6%A6%82%E8%BF%B0"><span class="nav-number">1.1.</span> <span class="nav-text">🚀 核心方案概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E9%98%B6%E6%AE%B5%EF%BC%9A%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87%E4%B8%8E%E5%AE%89%E8%A3%85"><span class="nav-number">1.2.</span> <span class="nav-text">第一阶段：环境准备与安装</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85-Git-Node-js"><span class="nav-number">1.2.1.</span> <span class="nav-text">1. 软件安装 (Git &amp; Node.js)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E8%AE%BE%E7%BD%AE-npm-%E5%9B%BD%E5%86%85%E9%95%9C%E5%83%8F-%E5%8F%AF%E9%80%89%EF%BC%8C%E4%BD%86%E6%8E%A8%E8%8D%90"><span class="nav-number">1.2.2.</span> <span class="nav-text">2. 设置 npm 国内镜像 (可选，但推荐)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E5%AE%89%E8%A3%85-Hexo-%E8%84%9A%E6%89%8B%E6%9E%B6"><span class="nav-number">1.2.3.</span> <span class="nav-text">3. 安装 Hexo 脚手架</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5%EF%BC%9A%E6%9C%AC%E5%9C%B0%E5%8D%9A%E5%AE%A2%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-number">1.3.</span> <span class="nav-text">第二阶段：本地博客初始化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E5%88%9D%E5%A7%8B%E5%8C%96%E9%A1%B9%E7%9B%AE"><span class="nav-number">1.3.1.</span> <span class="nav-text">1. 初始化项目</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E7%AC%AC%E4%B8%80%E6%AC%A1%E6%9C%AC%E5%9C%B0%E9%A2%84%E8%A7%88"><span class="nav-number">1.3.2.</span> <span class="nav-text">2. 第一次本地预览</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E9%98%B6%E6%AE%B5%EF%BC%9A%E4%B8%8A%E7%BA%BF%E9%83%A8%E7%BD%B2-GitHub-Pages"><span class="nav-number">1.4.</span> <span class="nav-text">第三阶段：上线部署 (GitHub Pages)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E5%88%9B%E5%BB%BA-GitHub-%E4%BB%93%E5%BA%93-Repository"><span class="nav-number">1.4.1.</span> <span class="nav-text">1. 创建 GitHub 仓库 (Repository)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2%E6%8F%92%E4%BB%B6"><span class="nav-number">1.4.2.</span> <span class="nav-text">2. 安装部署插件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E9%85%8D%E7%BD%AE%E9%83%A8%E7%BD%B2%E4%BF%A1%E6%81%AF"><span class="nav-number">1.4.3.</span> <span class="nav-text">3. 配置部署信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-%E9%A6%96%E6%AC%A1%E5%8F%91%E5%B8%83"><span class="nav-number">1.4.4.</span> <span class="nav-text">4. 首次发布</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E5%9B%9B%E9%98%B6%E6%AE%B5%EF%BC%9A%E4%B8%AA%E6%80%A7%E5%8C%96%E5%AE%9A%E5%88%B6%E4%B8%8E%E5%86%85%E5%AE%B9%E5%8F%91%E5%B8%83"><span class="nav-number">1.5.</span> <span class="nav-text">第四阶段：个性化定制与内容发布</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E9%85%8D%E7%BD%AE%E7%AB%99%E7%82%B9%E4%BF%A1%E6%81%AF"><span class="nav-number">1.5.1.</span> <span class="nav-text">1. 配置站点信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E5%AE%89%E8%A3%85%E6%9E%81%E5%AE%A2%E4%B8%BB%E9%A2%98-NexT"><span class="nav-number">1.5.2.</span> <span class="nav-text">2. 安装极客主题 (NexT)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E9%85%8D%E7%BD%AE%E4%B8%BB%E9%A2%98%E6%A0%B7%E5%BC%8F"><span class="nav-number">1.5.3.</span> <span class="nav-text">3. 配置主题样式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-%E6%B7%BB%E5%8A%A0%E5%A4%B4%E5%83%8F%E4%B8%8E%E5%93%81%E7%89%8C%E5%8C%96"><span class="nav-number">1.5.4.</span> <span class="nav-text">4. 添加头像与品牌化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-%E5%8F%91%E5%B8%83%E6%96%87%E7%AB%A0%E7%9A%84%E6%B5%81%E7%A8%8B"><span class="nav-number">1.5.5.</span> <span class="nav-text">5. 发布文章的流程</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93%EF%BC%9A%E4%BD%A0%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E9%87%8C%E7%A8%8B%E7%A2%91"><span class="nav-number">1.6.</span> <span class="nav-text">总结：你的第一个里程碑</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -136,12 +137,12 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-count">2</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-count">2</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>
@@ -198,7 +199,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2025-11-23 13:01:29 / 修改时间：13:03:21" itemprop="dateCreated datePublished" datetime="2025-11-23T13:01:29+08:00">2025-11-23</time>
+      <time title="创建时间：2025-11-23 13:01:29 / 修改时间：14:00:53" itemprop="dateCreated datePublished" datetime="2025-11-23T13:01:29+08:00">2025-11-23</time>
     </span>
 
   
@@ -210,113 +211,101 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><p>没问题！既然你说是初学者，那我们就把所有”默认你懂”的步骤都拆解开，手把手带你走一遍。</p>
-<p>这个方案的目标是：<strong>在 30 分钟内，让你的博客在互联网上可以通过链接访问。</strong></p>
-<p>我们采用 <strong>Hexo (博客框架) + GitHub Pages (免费服务器)</strong> 的组合。</p>
+    <div class="post-body" itemprop="articleBody"><h2 id="💻-零成本打造你的极客博客：Hexo-GitHub-Pages-完整指南"><a href="#💻-零成本打造你的极客博客：Hexo-GitHub-Pages-完整指南" class="headerlink" title="💻 零成本打造你的极客博客：Hexo + GitHub Pages 完整指南"></a>💻 零成本打造你的极客博客：Hexo + GitHub Pages 完整指南</h2><p>作为一名学习计算机的学生，搭建个人博客是展示技术能力、沉淀学习笔记的最佳实践。本指南将带你从零开始，使用 <strong>Hexo (静态博客框架) + GitHub Pages (免费托管)</strong> 方案，打造一个高度定制化的技术博客，整个过程<strong>完全免费</strong>。</p>
+<h3 id="🚀-核心方案概述"><a href="#🚀-核心方案概述" class="headerlink" title="🚀 核心方案概述"></a>🚀 核心方案概述</h3><table>
+<thead>
+<tr>
+<th align="left">角色</th>
+<th align="left">技术栈</th>
+<th align="left">作用</th>
+<th align="left">成本</th>
+<th align="left">适合人群</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>框架</strong></td>
+<td align="left">Hexo (Node.js)</td>
+<td align="left">将 Markdown 编译成静态网页</td>
+<td align="left">¥0</td>
+<td align="left">内容快速发布</td>
+</tr>
+<tr>
+<td align="left"><strong>服务器</strong></td>
+<td align="left">GitHub Pages</td>
+<td align="left">免费托管你的网页文件</td>
+<td align="left">¥0</td>
+<td align="left">永久在线访问</td>
+</tr>
+<tr>
+<td align="left"><strong>主题</strong></td>
+<td align="left">NexT</td>
+<td align="left">极简、代码高亮、程序员必备风格</td>
+<td align="left">¥0</td>
+<td align="left">追求专业和稳定</td>
+</tr>
+</tbody></table>
 <hr>
-<h3 id="第一阶段：准备工作-环境搭建"><a href="#第一阶段：准备工作-环境搭建" class="headerlink" title="第一阶段：准备工作 (环境搭建)"></a>第一阶段：准备工作 (环境搭建)</h3><p>就像盖房子前要准备砖头和水泥，你需要先安装两个程序员必备工具。</p>
-<ol>
-<li><p><strong>安装 Node.js (为了运行 Hexo)</strong></p>
-<ul>
-<li>去官网 <a target="_blank" rel="noopener" href="https://nodejs.org/">nodejs.org</a> 下载 <strong>LTS (长期支持版)</strong>。</li>
-<li>一路点击 “Next” 安装即可。</li>
-<li><strong>验证：</strong> 打开你电脑的终端（Windows 按 <code>Win+R</code> 输入 <code>cmd</code>，Mac 打开 <code>Terminal</code>），输入 <code>node -v</code>。如果出现版本号（比如 <code>v18.x.x</code>），说明安装成功。</li>
-</ul>
-</li>
-<li><p><strong>安装 Git (为了把代码传到 GitHub)</strong></p>
-<ul>
-<li>去官网 <a target="_blank" rel="noopener" href="https://git-scm.com/">git-scm.com</a> 下载对应版本安装。</li>
-<li><strong>验证：</strong> 在终端输入 <code>git --version</code>，出现版本号即成功。</li>
-</ul>
-</li>
-<li><p><strong>注册 GitHub 账号</strong></p>
-<ul>
-<li>去 <a target="_blank" rel="noopener" href="https://github.com/">github.com</a> 注册一个账号。</li>
-<li><strong>重要提示：</strong> 记住你的 <strong>Username (用户名)</strong>，后面非常关键。</li>
-</ul>
-</li>
-</ol>
-<hr>
-<h3 id="第二阶段：搭建本地博客"><a href="#第二阶段：搭建本地博客" class="headerlink" title="第二阶段：搭建本地博客"></a>第二阶段：搭建本地博客</h3><p>现在我们在你自己的电脑上先把博客跑起来。</p>
-<ol>
-<li><p><strong>安装 Hexo 工具</strong><br>在终端（cmd&#x2F;terminal）里输入以下命令并回车（复制粘贴即可）：</p>
+<h3 id="第一阶段：环境准备与安装"><a href="#第一阶段：环境准备与安装" class="headerlink" title="第一阶段：环境准备与安装"></a>第一阶段：环境准备与安装</h3><p>环境混乱是初学者最容易遇到的问题。确保你的环境是干净且稳定的。</p>
+<h4 id="1-软件安装-Git-Node-js"><a href="#1-软件安装-Git-Node-js" class="headerlink" title="1. 软件安装 (Git &amp; Node.js)"></a>1. 软件安装 (Git &amp; Node.js)</h4><p>请确保你的电脑上安装了 Git 和 Node.js。</p>
+<blockquote>
+<p><strong>⚠️ 版本警告：</strong><br>如果之前有安装残留导致报错，请彻底删除残留文件后，安装 <strong>LTS (长期支持版，推荐 v20+)</strong>。LTS 版本稳定且兼容性最好，是技术博客的首选。</p>
+</blockquote>
+<h4 id="2-设置-npm-国内镜像-可选，但推荐"><a href="#2-设置-npm-国内镜像-可选，但推荐" class="headerlink" title="2. 设置 npm 国内镜像 (可选，但推荐)"></a>2. 设置 npm 国内镜像 (可选，但推荐)</h4><p>为防止下载依赖时卡顿或失败，建议切换镜像源：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm config <span class="built_in">set</span> registry https://registry.npmmirror.com</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-安装-Hexo-脚手架"><a href="#3-安装-Hexo-脚手架" class="headerlink" title="3. 安装 Hexo 脚手架"></a>3. 安装 Hexo 脚手架</h4><p>在终端全局安装 Hexo 命令行工具：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
 
-<p><em>(Mac 用户如果报错权限不足，前面加 <code>sudo</code>)</em></p>
-</li>
-<li><p><strong>创建博客文件夹</strong><br>找个硬盘位置（比如 D 盘），在终端里进入该目录，然后执行：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo init myblog</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="第二阶段：本地博客初始化"><a href="#第二阶段：本地博客初始化" class="headerlink" title="第二阶段：本地博客初始化"></a>第二阶段：本地博客初始化</h3><p>找到一个合适的文件夹（如 <code>D:\</code>），开始创建你的项目。</p>
+<h4 id="1-初始化项目"><a href="#1-初始化项目" class="headerlink" title="1. 初始化项目"></a>1. 初始化项目</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo init myblog</span><br><span class="line"><span class="built_in">cd</span> myblog</span><br><span class="line">npm install</span><br></pre></td></tr></table></figure>
 
-<p><em>(这一步会自动下载所需文件，<code>myblog</code> 是你的文件夹名字，可以改)</em></p>
-</li>
-<li><p><strong>进入文件夹并安装依赖</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> myblog</span><br><span class="line">npm install</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>第一次本地启动</strong><br>输入：</p>
+<h4 id="2-第一次本地预览"><a href="#2-第一次本地预览" class="headerlink" title="2. 第一次本地预览"></a>2. 第一次本地预览</h4><p>在终端运行，并在浏览器访问 <code>http://localhost:4000</code>，确认默认博客已启动。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo server</span><br></pre></td></tr></table></figure>
 
-<p>如果不报错，你会看到提示 <code>http://localhost:4000</code>。<br>👉 <strong>打开浏览器访问这个地址</strong>，你应该能看到一个已经写着 “Hello World” 的漂亮网页了！<br><em>(在终端按 <code>Ctrl + C</code> 可以停止服务)</em></p>
-</li>
-</ol>
+<p><em>(在终端按 <code>Ctrl + C</code> 即可停止服务)</em></p>
 <hr>
-<h3 id="第三阶段：连接到互联网-部署到-GitHub"><a href="#第三阶段：连接到互联网-部署到-GitHub" class="headerlink" title="第三阶段：连接到互联网 (部署到 GitHub)"></a>第三阶段：连接到互联网 (部署到 GitHub)</h3><p>这是最关键的一步，把本地的网页传到 GitHub 上，让全世界都能看到。</p>
-<ol>
-<li><p><strong>在 GitHub 创建仓库</strong></p>
-<ul>
-<li>登录 GitHub，点击右上角 <code>+</code> 号 -&gt; <code>New repository</code>。</li>
-<li><strong>仓库名 (Repository name) 必须严格遵守这个格式：</strong><br><code>你的用户名.github.io</code><br><em>例如：如果你的用户名是 <code>zhangsan</code>，仓库名必须是 <code>zhangsan.github.io</code>。一个字母都不能错！</em></li>
-<li>勾选 <code>Public</code>，点击 <code>Create repository</code>。</li>
-</ul>
-</li>
-<li><p><strong>安装 Git 部署插件</strong><br>回到你电脑的终端（确保你在 <code>myblog</code> 文件夹下），输入：</p>
+<h3 id="第三阶段：上线部署-GitHub-Pages"><a href="#第三阶段：上线部署-GitHub-Pages" class="headerlink" title="第三阶段：上线部署 (GitHub Pages)"></a>第三阶段：上线部署 (GitHub Pages)</h3><p>这是将你的本地成果推向互联网的关键步骤。</p>
+<h4 id="1-创建-GitHub-仓库-Repository"><a href="#1-创建-GitHub-仓库-Repository" class="headerlink" title="1. 创建 GitHub 仓库 (Repository)"></a>1. 创建 GitHub 仓库 (Repository)</h4><p>登录 GitHub，创建新的仓库，<strong>仓库名必须严格命名为：<code>你的用户名.github.io</code></strong>。</p>
+<h4 id="2-安装部署插件"><a href="#2-安装部署插件" class="headerlink" title="2. 安装部署插件"></a>2. 安装部署插件</h4><p>回到本地项目文件夹（<code>myblog</code>），安装 Git 部署插件：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>修改配置文件</strong></p>
-<ul>
-<li>在 <code>myblog</code> 文件夹里找到 <code>_config.yml</code> 文件。</li>
-<li>用记事本或代码编辑器（推荐 VS Code）打开它。</li>
-<li>拉到文件<strong>最底部</strong>，找到 <code>deploy:</code> 部分，把它修改成下面这样（注意冒号后面要有<strong>空格</strong>）：</li>
-</ul>
-<!-- end list -->
 
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">  <span class="attr">repo:</span> <span class="string">https://github.com/你的用户名/你的用户名.github.io.git</span></span><br><span class="line">  <span class="attr">branch:</span> <span class="string">main</span></span><br></pre></td></tr></table></figure>
+<h4 id="3-配置部署信息"><a href="#3-配置部署信息" class="headerlink" title="3. 配置部署信息"></a>3. 配置部署信息</h4><p>打开项目根目录下的 <strong><code>_config.yml</code></strong> 文件，拉到最底部，修改 <code>deploy:</code> 字段：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">  <span class="attr">repo:</span> <span class="string">https://github.com/你的用户名/你的用户名.github.io.git</span></span><br><span class="line">  <span class="attr">branch:</span> <span class="string">main</span>  <span class="comment"># 或者 master，取决于你的 GitHub 仓库默认分支</span></span><br></pre></td></tr></table></figure>
 
-<p><em>(把上面的中文换成你真实的 GitHub 用户名)</em></p>
-</li>
-<li><p><strong>最后一步：推送到 GitHub</strong><br>在终端依次输入下面三行神圣的命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo clean   <span class="comment"># 清除旧缓存</span></span><br><span class="line">hexo g       <span class="comment"># 生成静态网页 (Generate)</span></span><br><span class="line">hexo d       <span class="comment"># 部署到 GitHub (Deploy)</span></span><br></pre></td></tr></table></figure>
+<p><em>(注意：冒号后面必须有空格)</em></p>
+<h4 id="4-首次发布"><a href="#4-首次发布" class="headerlink" title="4. 首次发布"></a>4. 首次发布</h4><p>依次运行命令，将网站发布到 GitHub Pages：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo clean   <span class="comment"># 清除缓存</span></span><br><span class="line">hexo g       <span class="comment"># 生成静态文件 (Generate)</span></span><br><span class="line">hexo d       <span class="comment"># 部署到 GitHub (Deploy)</span></span><br></pre></td></tr></table></figure>
 
-<p><em>如果是第一次使用，终端会弹出一个 GitHub 的登录框，让你授权。输入账号密码（或浏览器授权）即可。</em></p>
-</li>
-</ol>
+<p><strong>恭喜！</strong> 等待 1-2 分钟，访问 <code>https://你的用户名.github.io</code>，你的博客就正式上线了！</p>
 <hr>
-<h3 id="第四阶段：见证奇迹"><a href="#第四阶段：见证奇迹" class="headerlink" title="第四阶段：见证奇迹"></a>第四阶段：见证奇迹</h3><p>等终端显示 <code>Deploy done</code> 后，等待约 1-2 分钟。</p>
-<p>👉 在浏览器输入网址： <strong><code>https://你的用户名.github.io</code></strong></p>
-<p>如果看到了和你本地一样的画面，<strong>恭喜你！你已经成功搭建了自己的个人博客！</strong> 这是一个非常了不起的里程碑。</p>
-<hr>
-<h3 id="以后怎么写文章？-日常使用流程"><a href="#以后怎么写文章？-日常使用流程" class="headerlink" title="以后怎么写文章？ (日常使用流程)"></a>以后怎么写文章？ (日常使用流程)</h3><p>搭建好之后，你以后的日常操作非常简单，只需要记住这 4 步：</p>
+<h3 id="第四阶段：个性化定制与内容发布"><a href="#第四阶段：个性化定制与内容发布" class="headerlink" title="第四阶段：个性化定制与内容发布"></a>第四阶段：个性化定制与内容发布</h3><p>博客上线后，我们进行品牌化和美化。</p>
+<h4 id="1-配置站点信息"><a href="#1-配置站点信息" class="headerlink" title="1. 配置站点信息"></a>1. 配置站点信息</h4><p>在根目录的 <code>_config.yml</code> 中，修改你的<strong>网站标题、作者和语言</strong>：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Site</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">Rivhome</span> <span class="string">的技术笔记</span></span><br><span class="line"><span class="attr">author:</span> <span class="string">Rivhome</span></span><br><span class="line"><span class="attr">language:</span> <span class="string">zh-CN</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="2-安装极客主题-NexT"><a href="#2-安装极客主题-NexT" class="headerlink" title="2. 安装极客主题 (NexT)"></a>2. 安装极客主题 (NexT)</h4><p>为了让博客更具专业感，我们安装 NexT 主题：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/next-theme/hexo-theme-next themes/next</span><br></pre></td></tr></table></figure>
+
+<p>然后，在<strong>根目录</strong>的 <code>_config.yml</code> 中，将 <code>theme: landscape</code> 改为 <code>theme: next</code>。</p>
+<h4 id="3-配置主题样式"><a href="#3-配置主题样式" class="headerlink" title="3. 配置主题样式"></a>3. 配置主题样式</h4><p>打开 <code>themes/next/_config.yml</code> (注意是主题目录下的配置)。搜索 <code>Scheme</code>，推荐启用 <code>Gemini</code> 风格（经典左侧侧边栏）：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Schemes</span></span><br><span class="line"><span class="comment"># scheme: Muse</span></span><br><span class="line"><span class="comment"># scheme: Pisces</span></span><br><span class="line"><span class="attr">scheme:</span> <span class="string">Gemini</span> </span><br></pre></td></tr></table></figure>
+
+<p><em>(注释掉其他，只保留 <code>scheme: Gemini</code>)</em></p>
+<h4 id="4-添加头像与品牌化"><a href="#4-添加头像与品牌化" class="headerlink" title="4. 添加头像与品牌化"></a>4. 添加头像与品牌化</h4><p>在 <code>themes/next/_config.yml</code> 中，找到 <code>avatar</code> 字段，并指定你头像的路径：</p>
 <ol>
-<li><p><strong>新建文章：</strong><br>在终端输入：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new <span class="string">&quot;我的第一篇博客&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>它会在 <code>source/_posts</code> 目录下生成一个 <code>我的第一篇博客.md</code> 文件。</p>
-</li>
-<li><p><strong>写内容：</strong><br>用 Markdown 编辑器（推荐 Typora 或 VS Code）打开这个文件，开始写你的技术笔记或心情。</p>
-</li>
-<li><p><strong>本地预览（可选）：</strong><br><code>hexo s</code> (在本地看看排版对不对)。</p>
-</li>
-<li><p><strong>发布上线：</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
-
-<p>搞定！</p>
-</li>
+<li>将头像图片（如 <code>my-avatar.jpg</code>）放入 <code>source/images/</code> 文件夹。</li>
+<li>修改配置：<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">avatar:</span></span><br><span class="line">  <span class="attr">url:</span> <span class="string">/images/my-avatar.jpg</span> </span><br></pre></td></tr></table></figure></li>
 </ol>
-<h3 id="给软工新手的特别建议"><a href="#给软工新手的特别建议" class="headerlink" title="给软工新手的特别建议"></a>给软工新手的特别建议</h3><ul>
-<li><strong>不要害怕 <code>_config.yml</code>：</strong> 那个配置文件里有很多设置（比如网站标题、作者名字、语言），你可以大胆去改，改完执行 <code>hexo s</code> 看效果。记得：<strong>YAML 格式非常严格，冒号后面必须有一个空格</strong>，否则会报错。</li>
-<li><strong>关于美化：</strong> 默认的主题叫 Landscape。如果你以后想换皮肤（主题），可以去搜 “Hexo Theme NexT” 或 “Hexo Theme Butterfly”，按照它们的文档把主题文件夹下载下来并在配置文件里改一行代码就行。</li>
-<li><strong>遇到报错怎么办？</strong> 复制报错信息的最后一行，直接扔给 Google 或者问我，99% 的问题前人都踩过坑。</li>
-</ul>
-<p>现在的你，已经在 GitHub 上拥有了一块属于自己的领地了，快去试试吧！如果有哪一步卡住了，随时把报错信息发给我。</p>
+<h4 id="5-发布文章的流程"><a href="#5-发布文章的流程" class="headerlink" title="5. 发布文章的流程"></a>5. 发布文章的流程</h4><p>日常写作只需要记住以下 4 步：</p>
+<ol>
+<li><strong>创建文件：</strong> <code>hexo new &quot;文章标题&quot;</code></li>
+<li><strong>编辑内容：</strong> 在 <code>source/_posts</code> 找到文件，用 Markdown 写作（内容写在 <code>---</code> 之后）。</li>
+<li><strong>本地测试：</strong> <code>hexo s</code> 预览。</li>
+<li><strong>发布上线：</strong> <code>hexo clean &amp;&amp; hexo g &amp;&amp; hexo d</code></li>
+</ol>
+<hr>
+<h3 id="总结：你的第一个里程碑"><a href="#总结：你的第一个里程碑" class="headerlink" title="总结：你的第一个里程碑"></a>总结：你的第一个里程碑</h3><p>通过这个过程，你不仅拥有了一个零成本的个人网站，更掌握了 Git 工作流、静态网站生成和 CI&#x2F;CD（手动版）的思维。这对于你的IT学习之路，是非常宝贵的实战经验！</p>
+<p><strong>祝你的技术博客创作之路一帆风顺！</strong></p>
 
     </div>
 
@@ -325,6 +314,9 @@
     
 
     <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" rel="tag"># 博客搭建</a>
+          </div>
 
         
 
