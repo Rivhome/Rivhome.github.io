@@ -1,0 +1,328 @@
+/* ==========================================
+   Minimalist Design System
+   ========================================== */
+
+/* --- Typography: Chinese-friendly font stack --- */
+:root {
+  --vp-font-family-base: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC',
+    'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  --vp-font-family-mono: 'JetBrains Mono', 'Fira Code', 'SF Mono', Menlo, Consolas, monospace;
+
+  /* Brand colors */
+  --vp-c-brand-1: #3b5998;
+  --vp-c-brand-2: #4a6fa5;
+  --vp-c-brand-3: #2d4373;
+
+  /* Clean neutrals */
+  --vp-c-text-1: #1a1a2e;
+  --vp-c-text-2: #4a4a5a;
+  --vp-c-text-3: #8a8a9a;
+  --vp-c-divider: #e8e8ed;
+}
+
+.dark {
+  --vp-c-text-1: #e8e8ed;
+  --vp-c-text-2: #a0a0b0;
+  --vp-c-text-3: #6a6a7a;
+  --vp-c-divider: #2a2a36;
+}
+
+/* --- Content Area --- */
+.VPDoc .content-container {
+  max-width: 720px !important;
+}
+
+/* --- Typography --- */
+.vp-doc {
+  font-size: 16px;
+  line-height: 1.8;
+  letter-spacing: 0.01em;
+}
+
+.vp-doc h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-top: 2rem;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.02em;
+}
+
+.vp-doc h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--vp-c-divider);
+}
+
+.vp-doc h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.vp-doc p {
+  margin-bottom: 1.25em;
+}
+
+/* --- Links --- */
+.vp-doc a {
+  color: var(--vp-c-brand-1);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.vp-doc a:hover {
+  color: var(--vp-c-brand-2);
+}
+
+/* --- Blockquotes --- */
+.vp-doc blockquote {
+  border-left: 3px solid var(--vp-c-brand-1);
+  background: transparent;
+  padding: 0.5em 1em;
+  margin: 1.5em 0;
+  color: var(--vp-c-text-2);
+}
+
+/* --- Code blocks --- */
+.vp-doc div[class*='language-'] {
+  border-radius: 8px;
+  margin: 1.5em 0;
+}
+
+/* --- Images --- */
+.vp-doc img {
+  border-radius: 8px;
+  max-width: 100%;
+  margin: 1.5em auto;
+  display: block;
+}
+
+/* --- Tables --- */
+.vp-doc table {
+  width: 100%;
+  margin: 1.5em 0;
+  border-collapse: collapse;
+  font-size: 0.9em;
+}
+
+.vp-doc th,
+.vp-doc td {
+  padding: 0.75em 1em;
+  border-bottom: 1px solid var(--vp-c-divider);
+  text-align: left;
+}
+
+.vp-doc th {
+  font-weight: 600;
+  color: var(--vp-c-text-2);
+}
+
+/* ==========================================
+   Blog-specific Styles
+   ========================================== */
+
+.blog-home {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 4rem 1.5rem;
+}
+
+.blog-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin-bottom: 0.5rem;
+}
+
+.blog-subtitle {
+  color: var(--vp-c-text-2);
+  font-size: 1.1rem;
+  margin-bottom: 3rem;
+}
+
+/* Post list */
+.post-list {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.post-item {
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--vp-c-divider);
+}
+
+.post-item:last-child {
+  border-bottom: none;
+}
+
+.post-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--vp-c-text-1);
+  text-decoration: none;
+  display: block;
+  margin-bottom: 0.5rem;
+  transition: color 0.2s;
+}
+
+.post-title:hover {
+  color: var(--vp-c-brand-1);
+}
+
+.post-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.875rem;
+  color: var(--vp-c-text-3);
+}
+
+.post-tag {
+  background: var(--vp-c-default-soft);
+  padding: 0.15em 0.6em;
+  border-radius: 4px;
+  font-size: 0.8em;
+}
+
+.post-excerpt {
+  margin-top: 0.75rem;
+  color: var(--vp-c-text-2);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* Tag page */
+.tag-groups {
+  margin-top: 2rem;
+}
+
+.tag-section {
+  margin-bottom: 2rem;
+}
+
+.tag-section h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.tag-name {
+  font-weight: 600;
+  color: var(--vp-c-brand-1);
+}
+
+.tag-count {
+  font-size: 0.8em;
+  color: var(--vp-c-text-3);
+}
+
+.tag-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.tag-section li {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--vp-c-divider);
+}
+
+.tag-section li:last-child {
+  border-bottom: none;
+}
+
+.tag-section time {
+  font-size: 0.875rem;
+  color: var(--vp-c-text-3);
+  white-space: nowrap;
+}
+
+.tag-section a {
+  color: var(--vp-c-text-1);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.tag-section a:hover {
+  color: var(--vp-c-brand-1);
+}
+
+/* Archive page */
+.archives-page {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.archive-year {
+  margin-bottom: 2rem;
+}
+
+.archive-year h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.archive-year ul {
+  list-style: none;
+  padding: 0;
+}
+
+.archive-year li {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--vp-c-divider);
+}
+
+.archive-year li:last-child {
+  border-bottom: none;
+}
+
+.archive-year time {
+  font-size: 0.875rem;
+  color: var(--vp-c-text-3);
+  white-space: nowrap;
+}
+
+.archive-year a {
+  color: var(--vp-c-text-1);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.archive-year a:hover {
+  color: var(--vp-c-brand-1);
+}
+
+/* ==========================================
+   Scrollbar
+   ========================================== */
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--vp-c-divider);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--vp-c-text-3);
+}
