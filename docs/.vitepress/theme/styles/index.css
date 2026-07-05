@@ -1,5 +1,5 @@
 /* ==========================================
-   Minimalist Design System
+   Minimalist Design System for Personal Blog
    ========================================== */
 
 /* --- Typography: Chinese-friendly font stack --- */
@@ -8,31 +8,53 @@
     'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
   --vp-font-family-mono: 'JetBrains Mono', 'Fira Code', 'SF Mono', Menlo, Consolas, monospace;
 
-  /* Brand colors */
-  --vp-c-brand-1: #3b5998;
-  --vp-c-brand-2: #4a6fa5;
-  --vp-c-brand-3: #2d4373;
+  /* Brand colors - refined blue */
+  --vp-c-brand-1: #3b5fc0;
+  --vp-c-brand-2: #5470d6;
+  --vp-c-brand-3: #2b4aaa;
+  --vp-c-brand-soft: rgba(59, 95, 192, 0.08);
 
   /* Clean neutrals */
   --vp-c-text-1: #1a1a2e;
   --vp-c-text-2: #4a4a5a;
-  --vp-c-text-3: #8a8a9a;
+  --vp-c-text-3: #8888a0;
   --vp-c-divider: #e8e8ed;
+
+  /* Backgrounds */
+  --vp-c-bg-soft: #f7f7fb;
 }
 
 .dark {
   --vp-c-text-1: #e8e8ed;
-  --vp-c-text-2: #a0a0b0;
-  --vp-c-text-3: #6a6a7a;
-  --vp-c-divider: #2a2a36;
+  --vp-c-text-2: #a0a0b4;
+  --vp-c-text-3: #6a6a7c;
+  --vp-c-divider: #2a2a38;
+  --vp-c-bg-soft: #1e1e2c;
+  --vp-c-brand-soft: rgba(84, 112, 214, 0.15);
 }
 
-/* --- Content Area --- */
+/* ==========================================
+   Global Layout
+   ========================================== */
+
+/* Smooth theme transition */
+html {
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Content area max-width for readability */
 .VPDoc .content-container {
   max-width: 720px !important;
 }
 
-/* --- Typography --- */
+.VPDoc.has-aside .content-container {
+  max-width: 720px !important;
+}
+
+/* ==========================================
+   Typography
+   ========================================== */
+
 .vp-doc {
   font-size: 16px;
   line-height: 1.8;
@@ -67,7 +89,10 @@
   margin-bottom: 1.25em;
 }
 
-/* --- Links --- */
+/* ==========================================
+   Links
+   ========================================== */
+
 .vp-doc a {
   color: var(--vp-c-brand-1);
   text-decoration: none;
@@ -78,7 +103,10 @@
   color: var(--vp-c-brand-2);
 }
 
-/* --- Blockquotes --- */
+/* ==========================================
+   Blockquotes
+   ========================================== */
+
 .vp-doc blockquote {
   border-left: 3px solid var(--vp-c-brand-1);
   background: transparent;
@@ -87,13 +115,30 @@
   color: var(--vp-c-text-2);
 }
 
-/* --- Code blocks --- */
+/* ==========================================
+   Code blocks
+   ========================================== */
+
 .vp-doc div[class*='language-'] {
   border-radius: 8px;
   margin: 1.5em 0;
 }
 
-/* --- Images --- */
+/* Inline code */
+.vp-doc code {
+  font-size: 0.88em;
+}
+
+.vp-doc :not(pre) > code {
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+  background: var(--vp-c-default-soft);
+}
+
+/* ==========================================
+   Images
+   ========================================== */
+
 .vp-doc img {
   border-radius: 8px;
   max-width: 100%;
@@ -101,7 +146,10 @@
   display: block;
 }
 
-/* --- Tables --- */
+/* ==========================================
+   Tables
+   ========================================== */
+
 .vp-doc table {
   width: 100%;
   margin: 1.5em 0;
@@ -122,187 +170,102 @@
 }
 
 /* ==========================================
-   Blog-specific Styles
+   Nav Bar Enhancement
    ========================================== */
 
-.blog-home {
-  max-width: 720px;
-  margin: 0 auto;
-  padding: 4rem 1.5rem;
+.VPNav {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
-.blog-title {
-  font-size: 2.5rem;
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  margin-bottom: 0.5rem;
+.VPNav.has-sidebar {
+  background: transparent !important;
 }
 
-.blog-subtitle {
-  color: var(--vp-c-text-2);
-  font-size: 1.1rem;
-  margin-bottom: 3rem;
+.VPNav:not(.has-sidebar) {
+  background: transparent !important;
 }
 
-/* Post list */
-.post-list {
-  max-width: 720px;
-  margin: 0 auto;
+/* Nav shadow on scroll */
+.VPNav.is-active {
+  background-color: var(--vp-nav-bg-color) !important;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.05);
 }
 
-.post-item {
-  padding: 1.5rem 0;
-  border-bottom: 1px solid var(--vp-c-divider);
+/* ==========================================
+   Sidebar & NavScreen refinement
+   ========================================== */
+
+.VPSidebar {
+  border-right: 1px solid var(--vp-c-divider);
 }
 
-.post-item:last-child {
-  border-bottom: none;
+/* Fix: VitePress NavScreen height collapses to 0 on toggle — force proper dimensions */
+.VPNavScreen {
+  min-height: calc(100vh - var(--vp-nav-height)) !important;
+  height: auto !important;
 }
 
-.post-title {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: var(--vp-c-text-1);
-  text-decoration: none;
-  display: block;
-  margin-bottom: 0.5rem;
-  transition: color 0.2s;
+/* Fix: Ensure sidebar .open class works correctly for mobile toggle */
+@media (max-width: 960px) {
+  .VPSidebar.open {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateX(0) !important;
+  }
 }
 
-.post-title:hover {
-  color: var(--vp-c-brand-1);
+/* Mobile responsive adjustments — preserve VitePress native toggle */
+@media (max-width: 960px) {
+  /* Content area full width on mobile */
+  .VPDoc .content-container {
+    max-width: 100% !important;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  /* Hide aside (outline/toc) on mobile */
+  .VPDoc.has-sidebar .aside,
+  .VPDoc:not(.has-sidebar) .aside {
+    display: none;
+  }
+
+  /* Hide left sidebar toggle button — keep only top-right hamburger */
+  .VPDocAsideNav {
+    display: none !important;
+  }
+
+  /* Ensure home page content doesn't overflow */
+  .VPContent:not(.has-sidebar) .VPDoc {
+    max-width: 100%;
+    padding: 0 1rem;
+  }
 }
 
-.post-meta {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  font-size: 0.875rem;
-  color: var(--vp-c-text-3);
-}
+@media (max-width: 768px) {
+  .VPNav .nav-bar-title {
+    font-size: 1rem;
+  }
 
-.post-tag {
-  background: var(--vp-c-default-soft);
-  padding: 0.15em 0.6em;
-  border-radius: 4px;
-  font-size: 0.8em;
-}
+  .VPNav .nav-link {
+    font-size: 0.875rem;
+    padding: 0 0.4rem;
+  }
 
-.post-excerpt {
-  margin-top: 0.75rem;
-  color: var(--vp-c-text-2);
-  font-size: 0.95rem;
-  line-height: 1.6;
-}
+  /* Home page mobile padding */
+  .home-page {
+    padding: 1rem 0.75rem 2rem;
+  }
 
-/* Tag page */
-.tag-groups {
-  margin-top: 2rem;
-}
+  .hero-section {
+    border-radius: 8px;
+  }
 
-.tag-section {
-  margin-bottom: 2rem;
-}
-
-.tag-section h2 {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  border-bottom: none;
-  padding-bottom: 0;
-}
-
-.tag-name {
-  font-weight: 600;
-  color: var(--vp-c-brand-1);
-}
-
-.tag-count {
-  font-size: 0.8em;
-  color: var(--vp-c-text-3);
-}
-
-.tag-section ul {
-  list-style: none;
-  padding: 0;
-}
-
-.tag-section li {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 0.5rem 0;
-  border-bottom: 1px solid var(--vp-c-divider);
-}
-
-.tag-section li:last-child {
-  border-bottom: none;
-}
-
-.tag-section time {
-  font-size: 0.875rem;
-  color: var(--vp-c-text-3);
-  white-space: nowrap;
-}
-
-.tag-section a {
-  color: var(--vp-c-text-1);
-  text-decoration: none;
-  transition: color 0.2s;
-}
-
-.tag-section a:hover {
-  color: var(--vp-c-brand-1);
-}
-
-/* Archive page */
-.archives-page {
-  max-width: 720px;
-  margin: 0 auto;
-}
-
-.archive-year {
-  margin-bottom: 2rem;
-}
-
-.archive-year h2 {
-  font-size: 1.5rem;
-  font-weight: 700;
-  border-bottom: none;
-  padding-bottom: 0;
-}
-
-.archive-year ul {
-  list-style: none;
-  padding: 0;
-}
-
-.archive-year li {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 0.5rem 0;
-  border-bottom: 1px solid var(--vp-c-divider);
-}
-
-.archive-year li:last-child {
-  border-bottom: none;
-}
-
-.archive-year time {
-  font-size: 0.875rem;
-  color: var(--vp-c-text-3);
-  white-space: nowrap;
-}
-
-.archive-year a {
-  color: var(--vp-c-text-1);
-  text-decoration: none;
-  transition: color 0.2s;
-}
-
-.archive-year a:hover {
-  color: var(--vp-c-brand-1);
+  /* Doc content tighter on small screens */
+  .VPDoc .content-container {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
 }
 
 /* ==========================================
@@ -325,4 +288,36 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--vp-c-text-3);
+}
+
+/* ==========================================
+   Responsive Utilities
+   ========================================== */
+
+@media (max-width: 768px) {
+  .vp-doc {
+    font-size: 15px;
+  }
+
+  .vp-doc h1 {
+    font-size: 1.6rem;
+  }
+
+  .vp-doc h2 {
+    font-size: 1.3rem;
+  }
+}
+
+/* ==========================================
+   Print Styles
+   ========================================== */
+
+@media print {
+  .VPNav,
+  .VPSidebar,
+  .ReadingProgress,
+  .BackToTop,
+  .giscus-wrapper {
+    display: none !important;
+  }
 }
