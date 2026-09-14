@@ -1,4 +1,5 @@
 import { createContentLoader } from 'vitepress'
+import { countWordsOf, readPostFile, resolveDate } from './lib/postfile'
 
 export interface PostStats {
   totalPosts: number
@@ -19,6 +20,11 @@ export interface PostStats {
 declare const data: PostStats
 export { data }
 
+function toArray(v: unknown): string[] {
+  if (!v) return []
+  return Array.isArray(v) ? (v as string[]) : [v as string]
+}
+
 export default createContentLoader('posts/*.md', {
   excerpt: true,
   transform(raw): PostStats {
@@ -29,42 +35,37 @@ export default createContentLoader('posts/*.md', {
     const postsByYear: Record<string, number> = {}
     let totalWords = 0
 
-    const sorted = raw
+    const items = raw
+      .filter((r) => r.frontmatter.archived !== true)
       .map((r) => {
-        // Count words in excerpt + content (rough estimate from raw)
-        const words = (r.excerpt || '').replace(/<[^>]*>/g, '').length
-        totalWords += words
+        const file = readPostFile(r.url)
+        totalWords += file ? countWordsOf(file.content) : 0
 
-        const date = new Date(r.frontmatter.date as string)
+        const date = resolveDate(r.frontmatter.date, file?.mtime ?? new Date(), r.url)
         const dateKey = date.toISOString().slice(0, 10) // YYYY-MM-DD
-        const monthKey = dateKey.slice(0, 7) // YYYY-MM
-        const yearKey = dateKey.slice(0, 4) // YYYY
-
-        postsByDate[dateKey] = (postsByDate[dateKey] || 0) + 1
-        postsByMonth[monthKey] = (postsByMonth[monthKey] || 0) + 1
-        postsByYear[yearKey] = (postsByYear[yearKey] || 0) + 1
-
-        const categories = r.frontmatter.categories
-          ? Array.isArray(r.frontmatter.categories)
-            ? (r.frontmatter.categories as string[])
-            : [r.frontmatter.categories as string]
-          : []
-        categories.forEach((c) => {
-          categoriesCount[c] = (categoriesCount[c] || 0) + 1
-        })
-
-        const tags = r.frontmatter.tags
-          ? Array.isArray(r.frontmatter.tags)
-            ? (r.frontmatter.tags as string[])
-            : [r.frontmatter.tags as string]
-          : []
-        tags.forEach((t) => {
-          tagsCount[t] = (tagsCount[t] || 0) + 1
-        })
-
-        return { date, dateKey }
+        return {
+          date,
+          dateKey,
+          monthKey: dateKey.slice(0, 7),
+          yearKey: dateKey.slice(0, 4),
+          categories: toArray(r.frontmatter.categories),
+          tags: toArray(r.frontmatter.tags),
+        }
       })
-      .sort((a, b) => a.date.getTime() - b.date.getTime())
+
+    for (const item of items) {
+      postsByDate[item.dateKey] = (postsByDate[item.dateKey] || 0) + 1
+      postsByMonth[item.monthKey] = (postsByMonth[item.monthKey] || 0) + 1
+      postsByYear[item.yearKey] = (postsByYear[item.yearKey] || 0) + 1
+      item.categories.forEach((c) => {
+        categoriesCount[c] = (categoriesCount[c] || 0) + 1
+      })
+      item.tags.forEach((t) => {
+        tagsCount[t] = (tagsCount[t] || 0) + 1
+      })
+    }
+
+    const sorted = [...items].sort((a, b) => a.date.getTime() - b.date.getTime())
 
     // Calculate streak days
     let streakDays = 0
@@ -81,6 +82,7 @@ export default createContentLoader('posts/*.md', {
     }
 
     // Generate calendar heatmap data (last 365 days)
+    // level 阈值：0 / 1 / 2 / 3-4 / ≥5
     const dailyPosts: Array<{ date: string; count: number; level: number }> = []
     const today = new Date()
     for (let i = 364; i >= 0; i--) {
@@ -89,7 +91,7 @@ export default createContentLoader('posts/*.md', {
       const key = d.toISOString().slice(0, 10)
       const count = postsByDate[key] || 0
       let level = 0
-      if (count >= 4) level = 4
+      if (count >= 5) level = 4
       else if (count >= 3) level = 3
       else if (count >= 2) level = 2
       else if (count >= 1) level = 1
@@ -97,7 +99,7 @@ export default createContentLoader('posts/*.md', {
     }
 
     return {
-      totalPosts: raw.length,
+      totalPosts: items.length,
       totalWords,
       totalTags: Object.keys(tagsCount).length,
       totalCategories: Object.keys(categoriesCount).length,

@@ -1,0 +1,190 @@
+/* ==========================================================
+   Design Tokens — 编辑风设计系统
+   ----------------------------------------------------------
+   唯一事实来源是 --bl-* 变量：
+   1. 自定义组件只允许引用 --bl-*（禁止裸 hex）
+   2. 文件末尾把 --bl-* 统一映射到 VitePress 变量，
+      使 outline / 搜索弹窗 / prev-next / custom-block 免费继承
+   ========================================================== */
+
+:root {
+  /* --- 字体（拉丁 webfont 自托管，中文回退系统栈） --- */
+  --bl-font-sans: 'Inter Variable', 'Inter', -apple-system, BlinkMacSystemFont,
+    'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Noto Sans SC',
+    'Microsoft YaHei', sans-serif;
+  --bl-font-mono: 'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace,
+    'SF Mono', Menlo, 'Cascadia Mono', Consolas, monospace;
+
+  /* --- 品牌蓝色阶（基准 #3b5fc0，对白底对比度 5.35:1） --- */
+  --bl-brand-50: #f2f5fc;
+  --bl-brand-100: #e3e9f8;
+  --bl-brand-200: #c8d3f0;
+  --bl-brand-300: #a2b5e6;
+  --bl-brand-400: #7b90d6;
+  --bl-brand-500: #3b5fc0;
+  --bl-brand-600: #3353a8;
+  --bl-brand-700: #2a4489;
+  --bl-brand-900: #1c2b4f;
+
+  /* --- 中性色（light） --- */
+  --bl-bg: #ffffff;
+  --bl-bg-alt: #f7f8fa;
+  --bl-bg-soft: #f0f1f4;
+  --bl-text-1: #191a20;
+  --bl-text-2: #4f515c;
+  --bl-text-3: #8b8d99;
+  --bl-divider: #e7e8ec;
+  --bl-border-strong: #d8dae1;
+
+  /* --- 语义别名（组件引用这些，不直接引用色阶） --- */
+  --bl-accent: var(--bl-brand-500); /* 链接、激活态 */
+  --bl-accent-hover: var(--bl-brand-600);
+  --bl-accent-active: var(--bl-brand-700);
+  --bl-accent-soft: rgba(59, 95, 192, 0.08);
+
+  /* --- 语义色 --- */
+  --bl-success: #2f8f5b;
+  --bl-warning: #b8791a;
+  --bl-danger: #c4453a;
+
+  /* --- 字号阶梯（中文优化；正文移动端保持 16px） --- */
+  --bl-text-display: 2.125rem; /* 34px 首页问候名 */
+  --bl-text-h1: 1.75rem; /* 28px 文章标题 */
+  --bl-text-h2: 1.3125rem; /* 21px */
+  --bl-text-h3: 1.0625rem; /* 17px */
+  --bl-text-body: 1rem; /* 16px */
+  --bl-text-small: 0.875rem; /* 14px */
+  --bl-text-meta: 0.8125rem; /* 13px 日期/字数/年份 */
+  --bl-leading-body: 1.85;
+  --bl-tracking-tight: -0.02em;
+
+  /* --- 间距（4px 基） --- */
+  --bl-space-1: 4px;
+  --bl-space-2: 8px;
+  --bl-space-3: 12px;
+  --bl-space-4: 16px;
+  --bl-space-5: 20px;
+  --bl-space-6: 24px;
+  --bl-space-8: 32px;
+  --bl-space-10: 40px;
+  --bl-space-14: 56px;
+  --bl-space-20: 80px;
+
+  /* --- 圆角（编辑风收紧：无大圆角卡片） --- */
+  --bl-radius-sm: 3px; /* 行内代码、chip */
+  --bl-radius-md: 6px; /* 代码块 */
+  --bl-radius-full: 999px; /* 头像、圆形按钮 */
+
+  /* --- 阴影（仅浮动元素使用，编辑风默认无阴影） --- */
+  --bl-shadow-float: 0 1px 2px rgba(16, 17, 24, 0.06),
+    0 8px 24px rgba(16, 17, 24, 0.08);
+
+  /* --- 布局宽度 --- */
+  --bl-width-content: 42rem; /* 672px，全站内容列 */
+  --bl-width-wide: 55rem; /* 880px，仅统计页 */
+
+  /* --- 写作热力图（品牌蓝阶，亮度单调） --- */
+  --bl-heat-0: #eceef2;
+  --bl-heat-1: #d6ddf4;
+  --bl-heat-2: #96a9e3;
+  --bl-heat-3: #4e6dc9;
+  --bl-heat-4: #27418f;
+}
+
+.dark {
+  /* --- dark 模式品牌色：换锚点而非翻转（对 #101014 对比度 7.9:1） --- */
+  --bl-accent: #8fa6e6;
+  --bl-accent-hover: #a3b6ec;
+  --bl-accent-active: #7b90d6;
+  --bl-accent-soft: rgba(143, 166, 230, 0.14);
+
+  /* --- 中性色（dark） --- */
+  --bl-bg: #101014;
+  --bl-bg-alt: #16171c;
+  --bl-bg-soft: #1b1d24;
+  --bl-text-1: #e7e8ee;
+  --bl-text-2: #a3a5b3;
+  --bl-text-3: #6d6f7d;
+  --bl-divider: #24262e;
+  --bl-border-strong: #31333d;
+
+  --bl-success: #5fc48e;
+  --bl-warning: #e0a34a;
+  --bl-danger: #e57a70;
+
+  --bl-shadow-float: 0 8px 24px rgba(0, 0, 0, 0.5);
+
+  /* --- 热力图（dark，亮度单调递增） --- */
+  --bl-heat-0: #1b1e2b;
+  --bl-heat-1: #2a3560;
+  --bl-heat-2: #3c4f96;
+  --bl-heat-3: #5f79cf;
+  --bl-heat-4: #9db1ee;
+}
+
+/* ==========================================================
+   VitePress 变量映射 —— 让默认主题组件继承设计系统
+   ========================================================== */
+
+:root {
+  --vp-font-family-base: var(--bl-font-sans);
+  --vp-font-family-mono: var(--bl-font-mono);
+
+  --vp-c-brand-1: var(--bl-accent);
+  --vp-c-brand-2: var(--bl-accent-hover);
+  --vp-c-brand-3: var(--bl-brand-500); /* 实心按钮底色（浅色模式） */
+  --vp-c-brand-soft: var(--bl-accent-soft);
+
+  --vp-c-bg: var(--bl-bg);
+  --vp-c-bg-alt: var(--bl-bg-alt);
+  --vp-c-bg-soft: var(--bl-bg-soft);
+  --vp-c-text-1: var(--bl-text-1);
+  --vp-c-text-2: var(--bl-text-2);
+  --vp-c-text-3: var(--bl-text-3);
+  --vp-c-divider: var(--bl-divider);
+  --vp-c-border: var(--bl-border-strong);
+  --vp-c-gutter: var(--bl-divider);
+
+  --vp-nav-bg-color: var(--bl-bg);
+  --vp-nav-height: 64px;
+
+  /* 行内代码：编辑风用「正文色 + 浅灰底」，不用品牌色 */
+  --vp-code-color: var(--bl-text-1);
+  --vp-code-bg: var(--bl-bg-soft);
+  /* 代码块底色与 vitesse 主题配套（light #f7f7f5 / dark #121212） */
+  --vp-code-block-bg: #f7f7f5;
+  --vp-code-line-highlight-color: var(--bl-accent-soft);
+  --vp-code-copy-code-bg: var(--bl-bg-soft);
+  --vp-code-copy-code-hover-bg: var(--bl-bg-alt);
+  --vp-code-copy-code-border-color: var(--bl-divider);
+
+  /* 本地搜索弹窗 */
+  --vp-local-search-bg: var(--bl-bg);
+  --vp-local-search-result-bg: var(--bl-bg);
+  --vp-local-search-result-border: var(--bl-divider);
+  --vp-local-search-result-selected-bg: var(--bl-brand-50);
+  --vp-local-search-result-selected-border: var(--bl-brand-200);
+  --vp-local-search-highlight-bg: var(--bl-brand-100);
+  --vp-local-search-highlight-text: var(--bl-brand-700);
+
+  /* custom block（提示容器） */
+  --vp-custom-block-info-bg: var(--bl-bg-soft);
+  --vp-custom-block-info-border: transparent;
+  --vp-custom-block-info-text: var(--bl-text-2);
+  --vp-custom-block-tip-bg: var(--bl-brand-50);
+  --vp-custom-block-tip-border: transparent;
+  --vp-custom-block-tip-text: var(--bl-text-1);
+  --vp-custom-block-tip-code-bg: var(--bl-bg-soft);
+}
+
+.dark {
+  --vp-c-brand-3: var(--bl-accent); /* dark 模式实心按钮用亮色锚点 */
+  --vp-code-block-bg: #121212; /* vitesse-dark 背景配套 */
+
+  --vp-local-search-result-selected-bg: rgba(143, 166, 230, 0.12);
+  --vp-local-search-result-selected-border: rgba(143, 166, 230, 0.3);
+  --vp-local-search-highlight-bg: rgba(143, 166, 230, 0.24);
+  --vp-local-search-highlight-text: var(--bl-text-1);
+
+  --vp-custom-block-tip-bg: rgba(143, 166, 230, 0.1);
+}

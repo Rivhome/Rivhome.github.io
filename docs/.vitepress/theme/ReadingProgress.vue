@@ -24,9 +24,10 @@ onUnmounted(() => window.removeEventListener('scroll', updateProgress))
   position: fixed;
   top: 0;
   left: 0;
-  height: 3px;
-  background: var(--vp-c-brand-1);
-  z-index: 9999;
+  height: 2px;
+  background: var(--bl-accent);
+  z-index: 60;
   transition: width 0.1s linear;
+  pointer-events: none;
 }
 </style>

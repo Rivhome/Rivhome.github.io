@@ -5,14 +5,15 @@
 ## 功能
 
 - 📝 Markdown 写作，Git 管理
-- 🏷️ 文章分类 & 标签筛选
+- 🎨 杂志编辑风设计系统（统一色彩/字体/间距 design tokens）
+- 🔤 自托管 Inter / JetBrains Mono 变量字体（拉丁字符）
+- 🏷️ 文章分类 & 标签筛选（支持 `?id=` 深链）
+- 📅 按年份归档 & 首页年分组列表
 - 📊 写作日历热力图 & 统计数据
-- 📅 按年份归档 & 更新日志时间轴
-- 👤 关于页面（博客数据统计）
 - 💬 Giscus 评论系统
 - 🔍 本地全文搜索
-- 🌗 明暗主题切换
-- 📱 响应式布局
+- 🌗 明暗主题切换（vitesse 代码高亮）
+- 📱 响应式布局（跟随 VitePress 断点，无全局侧栏）
 
 ---
 
@@ -56,25 +57,29 @@ docs/
 │   ├── categories.data.ts            # 分类数据加载器
 │   └── theme/                        # 自定义主题
 │       ├── index.ts                  # 主题入口 & 全局组件注册
-│       ├── BlogLayout.vue            # 全局布局（含 Giscus 评论）
-│       ├── HomePage.vue              # 首页内容组件
-│       ├── PostList.vue              # 文章列表组件
+│       ├── BlogLayout.vue            # 全局布局（插槽注入：进度条/文章头部/评论/页脚）
+│       ├── HomePage.vue              # 首页内容组件（问候区 + 年分组列表 + 筛选）
+│       ├── PostList.vue              # 文章列表组件（标题/日期/摘要）
 │       ├── AboutPage.vue             # 关于页面组件
 │       ├── BackToTop.vue             # 返回顶部
 │       ├── GiscusComment.vue         # Giscus 评论组件
-│       ├── ReadingProgress.vue       # 阅读进度条
+│       ├── ReadingProgress.vue       # 阅读进度条（仅文章页）
 │       ├── components/               # 子组件目录
-│       │   ├── CategoryList.vue      #   分类列表
-│       │   ├── ChangelogList.vue     #   更新日志列表
-│       │   ├── Pagination.vue        #   分页
-│       │   ├── ProfileCard.vue       #   个人卡片
-│       │   ├── StatsCalendar.vue     #   统计日历
-│       │   └── TagCloud.vue          #   标签云
+│       │   ├── CategoryList.vue      #   分类筛选行
+│       │   ├── ChangelogList.vue     #   更新日志时间轴
+│       │   ├── Greeting.vue          #   首页问候区
+│       │   ├── PostMeta.vue          #   文章头部 meta（日期/字数/阅读时长/分类/标签）
+│       │   ├── PostRow.vue           #   紧凑文章行（归档/分类/标签页共用）
+│       │   ├── SiteFooter.vue        #   全站页脚（统计/更新日志入口）
+│       │   ├── StatsCalendar.vue     #   写作日历热力图（品牌蓝阶）
+│       │   └── TagCloud.vue          #   标签筛选行
 │       ├── composables/              # 组合式函数
-│       │   ├── useMediumZoom.ts      #   图片缩放
-│       │   └── usePagination.ts      #   分页逻辑
+│       │   └── useMediumZoom.ts      #   图片缩放
 │       └── styles/
-│           └── index.css             # 全局样式
+│           ├── index.css             #   入口：导入下面三个文件 + VitePress 结构覆盖
+│           ├── tokens.css            #   design tokens（--bl-* 变量 + VitePress 变量映射）
+│           ├── base.css              #   全局基础样式（选区/焦点/滚动条）
+│           └── prose.css             #   文章正文排版（.vp-doc）
 └── .vitepress/dist/                  # 构建输出（部署用）
 ```
 
@@ -87,21 +92,26 @@ docs/
 ```yaml
 ---
 title: 文章标题
-date: 2026-01-01 12:00:00
+date: 2026-01-01 12:00:00       # 必填，格式 YYYY-MM-DD HH:mm:ss（月/日补零）
 updated: 2026-01-02 12:00:00    # 可选，用于"最后更新"
 tags: [标签1, 标签2]
 categories: [分类1, 分类2]
 pinned: false                    # 是否置顶
-archived: false                  # 是否归档（不显示在首页）
+archived: false                  # 是否归档（true = 不出现在首页/归档/标签/分类/统计中）
 ---
 
-文章正文（Markdown 格式）...
+写在开头的第一段会作为文章摘要显示在列表中。
+用一行 `---` 将摘要与正文分隔...
+
+正文其余部分（Markdown 格式）...
 ```
 
 **注意事项：**
-- `date` 用于排序和归档，格式 `YYYY-MM-DD HH:mm:ss`
+- `date` 用于排序和归档，格式 `YYYY-MM-DD HH:mm:ss`（**月和日必须补零**，如 `2026-07-05`）
+- 首段之后加一行 `---` 可将之前的文字作为列表摘要（excerpt）
 - `tags` 和 `categories` 会**自动收集**，无需手动配置
 - `pinned: true` 的文章会在首页置顶
+- `archived: true` 的文章从所有列表隐藏，但仍可通过链接直接访问
 - 文件名不要包含特殊字符，建议用中文或英文连字符命名
 
 ---
@@ -125,13 +135,13 @@ aside: false    # 如不需要右侧大纲可关闭
 
 ## 自定义样式
 
-全局样式在 `docs/.vitepress/theme/styles/index.css`，CSS 变量定义在 `:root` 中：
+设计系统定义在 `docs/.vitepress/theme/styles/tokens.css`：自有 token 以 `--bl-*` 为前缀（品牌蓝阶、中性灰、字号阶梯、间距、圆角等，明暗两套），并在同文件末尾映射到 `--vp-c-*` 等 VitePress 变量。组件样式只允许引用 `--bl-*`，不要写裸 hex。
 
 ```css
 :root {
-  --vp-c-brand-1: #3b5fc0;           /* 主题色 */
-  --vp-c-brand-2: #5470d6;           /* 悬停色 */
-  --vp-font-family-base: ...;        /* 中文字体栈 */
+  --bl-brand-500: #3b5fc0;   /* 品牌主色 */
+  --bl-text-body: 1rem;      /* 正文 16px（移动端不缩小） */
+  --bl-width-content: 42rem; /* 内容列 672px */
 }
 ```
 

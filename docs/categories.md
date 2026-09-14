@@ -6,9 +6,17 @@ aside: false
 
 <script setup lang="ts">
 import { data as categories } from '.vitepress/categories.data'
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 
 const activeCategory = ref('')
+
+// 支持 /categories?id=xxx 深链（文章详情页的分类链接会带此参数）
+onMounted(() => {
+  const id = new URLSearchParams(window.location.search).get('id')
+  if (id && categories[id]) {
+    activeCategory.value = id
+  }
+})
 
 const filteredCategories = computed(() => {
   if (!activeCategory.value) return categories
@@ -16,10 +24,6 @@ const filteredCategories = computed(() => {
   result[activeCategory.value] = categories[activeCategory.value]
   return result
 })
-
-function formatDate(date: Date): string {
-  return new Date(date).toLocaleDateString('zh-CN')
-}
 </script>
 
 <div class="categories-page">
@@ -28,24 +32,26 @@ function formatDate(date: Date): string {
     <p class="page-summary">共 {{ Object.keys(categories).length }} 个分类</p>
   </div>
 
-  <div class="category-grid-wrapper">
-    <CategoryList :categories="categories" :active-category="activeCategory" @select-category="(c) => activeCategory = c" />
-  </div>
+  <CategoryList
+    :categories="categories"
+    :active-category="activeCategory"
+    @select-category="(c) => (activeCategory = c)"
+  />
 
   <div class="category-detail" v-if="Object.keys(filteredCategories).length > 0">
     <div v-for="(posts, cat) in filteredCategories" :key="cat" class="category-section">
-      <h2>
-        <span class="cat-name">{{ cat }}</span>
-        <span class="cat-count">{{ posts.length }} 篇</span>
+      <h2 class="section-heading">
+        {{ cat }}
+        <span class="section-count">{{ posts.length }} 篇</span>
       </h2>
-      <ul class="cat-posts">
-        <li v-for="post in posts" :key="post.url">
-          <time>{{ formatDate(post.date) }}</time>
-          <a :href="post.url">{{ post.title }}</a>
-          <div class="cat-tags">
-            <span v-for="tag in post.tags" :key="tag" class="cat-tag">{{ tag }}</span>
-          </div>
-        </li>
+      <ul class="post-rows">
+        <PostRow
+          v-for="post in posts"
+          :key="post.url"
+          :url="post.url"
+          :title="post.title"
+          :date="post.date"
+        />
       </ul>
     </div>
   </div>
@@ -57,125 +63,47 @@ function formatDate(date: Date): string {
 
 <style scoped>
 .categories-page {
-  max-width: 860px;
-  margin: 0 auto;
-  padding: 2rem 1.5rem 4rem;
-}
-
-.page-header {
-  margin-bottom: 2rem;
+  padding: var(--bl-space-10) 0 0;
 }
 
 .page-header h1 {
-  font-size: 2rem;
-  font-weight: 700;
-  margin: 0 0 0.5rem;
-}
-
-.page-summary {
-  color: var(--vp-c-text-3);
-  font-size: 0.95rem;
   margin: 0;
 }
 
-.category-grid-wrapper {
-  margin-bottom: 2.5rem;
-}
-
-.category-detail {
-  margin-top: 1rem;
+.page-summary {
+  color: var(--bl-text-3);
+  font-size: var(--bl-text-meta);
+  margin: 4px 0 0;
 }
 
 .category-section {
-  margin-bottom: 2.5rem;
+  margin-top: 2.5rem;
 }
 
-.category-section h2 {
+.section-heading {
+  font-size: var(--bl-text-meta);
+  font-weight: 500;
+  color: var(--bl-text-3);
   display: flex;
   align-items: baseline;
-  gap: 0.75rem;
-  font-size: 1.3rem;
-  font-weight: 700;
-  padding-bottom: 0.5rem;
-  border-bottom: 2px solid var(--vp-c-brand-1);
-  margin-bottom: 0.75rem;
+  gap: 0.5rem;
+  margin: 0 0 var(--bl-space-2);
 }
 
-.cat-name {
-  color: var(--vp-c-text-1);
-}
-
-.cat-count {
-  font-size: 0.75em;
-  color: var(--vp-c-text-3);
+.section-count {
   font-weight: 400;
+  font-variant-numeric: tabular-nums;
 }
 
-.cat-posts {
+.post-rows {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.cat-posts li {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.6rem 0;
-  border-bottom: 1px solid var(--vp-c-divider);
-  flex-wrap: wrap;
-}
-
-.cat-posts li:last-child {
-  border-bottom: none;
-}
-
-.cat-posts time {
-  font-size: 0.85rem;
-  color: var(--vp-c-text-3);
-  white-space: nowrap;
-  min-width: 6rem;
-}
-
-.cat-posts a {
-  color: var(--vp-c-text-1);
-  text-decoration: none;
-  font-weight: 500;
-  transition: color 0.2s;
-  flex: 1;
-}
-
-.cat-posts a:hover {
-  color: var(--vp-c-brand-1);
-}
-
-.cat-tags {
-  display: flex;
-  gap: 0.35rem;
-}
-
-.cat-tag {
-  font-size: 0.75rem;
-  padding: 0.1em 0.5em;
-  border-radius: 4px;
-  background: var(--vp-c-default-soft);
-  color: var(--vp-c-text-3);
-}
-
 .empty-state {
   text-align: center;
-  padding: 4rem 0;
-  color: var(--vp-c-text-3);
-}
-
-@media (max-width: 768px) {
-  .categories-page {
-    padding: 1rem 1rem 3rem;
-  }
-  .cat-posts li {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.3rem;
-  }
+  padding: var(--bl-space-20) 0;
+  color: var(--bl-text-3);
 }
 </style>

@@ -1,9 +1,12 @@
 <script setup lang="ts">
+import { formatDate } from './utils/format-date'
+
 defineProps<{
   posts: Array<{
     title: string
     url: string
-    date: Date
+    /** 数据加载器产物经序列化后到达客户端时是 ISO 字符串 */
+    date: Date | string
     excerpt: string
     tags: string[]
     categories?: string[]
@@ -11,34 +14,34 @@ defineProps<{
     cover?: string
   }>
 }>()
-
-function formatDate(date: Date): string {
-  return new Date(date).toLocaleDateString('zh-CN', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-  })
-}
 </script>
 
 <template>
   <div class="post-list">
-    <article v-for="post in posts" :key="post.url" class="post-item" :class="{ pinned: post.pinned }">
-      <div class="post-title-row">
-        <span v-if="post.pinned" class="pin-badge">
-          <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 7 7.5 1.5-5.5 5.5L18 22l-6-3-6 3 1-6-5.5-5.5L9 9z"/></svg>
-          置顶
-        </span>
-        <a :href="post.url" class="post-title">{{ post.title }}</a>
-      </div>
+    <article v-for="post in posts" :key="post.url" class="post-item">
+      <h3 class="post-title">
+        <a :href="post.url">{{ post.title }}</a>
+        <svg
+          v-if="post.pinned"
+          class="pin-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          width="12"
+          height="12"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-label="置顶"
+        ><path d="M12 17v5" /><path d="M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V6h1a2 2 0 0 0 0-4H8a2 2 0 0 0 0 4h1z" /></svg>
+      </h3>
       <div class="post-meta">
         <time>{{ formatDate(post.date) }}</time>
-        <span v-if="post.categories?.length" class="post-categories">
-          <span v-for="cat in post.categories" :key="cat" class="post-category">{{ cat }}</span>
-        </span>
-      </div>
-      <div v-if="post.tags.length" class="post-tags">
-        <span v-for="tag in post.tags" :key="tag" class="post-tag">{{ tag }}</span>
+        <template v-if="post.categories?.length">
+          <span class="sep">·</span>
+          <span v-for="cat in post.categories" :key="cat">{{ cat }}</span>
+        </template>
       </div>
       <p v-if="post.excerpt" class="post-excerpt" v-html="post.excerpt" />
     </article>
@@ -51,101 +54,67 @@ function formatDate(date: Date): string {
 }
 
 .post-item {
-  padding: 1.5rem 0;
-  border-bottom: 1px solid var(--vp-c-divider);
-  transition: all 0.2s;
+  padding: var(--bl-space-6) 0;
+  border-bottom: 1px solid var(--bl-divider);
 }
 
 .post-item:last-child {
   border-bottom: none;
-}
-
-.post-item.pinned {
-  padding-left: 1rem;
-  border-left: 3px solid var(--vp-c-brand-1);
-  background: var(--vp-c-brand-soft);
-  margin-left: -1rem;
-  padding-right: 1rem;
-  border-radius: 0 6px 6px 0;
-}
-
-.post-title-row {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 0.4rem;
+  padding-bottom: 0;
 }
 
 .post-title {
-  font-size: 1.2rem;
+  margin: 0;
+  font-size: 1.0625rem;
   font-weight: 600;
-  color: var(--vp-c-text-1);
+  line-height: 1.5;
+  letter-spacing: var(--bl-tracking-tight);
+}
+
+.post-title a {
+  color: var(--bl-text-1);
   text-decoration: none;
   transition: color 0.2s;
-  line-height: 1.4;
 }
 
-.post-title:hover {
-  color: var(--vp-c-brand-1);
+.post-title a:hover {
+  color: var(--bl-accent);
 }
 
-.pin-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 3px;
-  font-size: 0.7rem;
-  font-weight: 500;
-  background: var(--vp-c-brand-1);
-  color: #fff;
-  border-radius: 4px;
-  padding: 0.15em 0.5em;
-  opacity: 0.88;
-  white-space: nowrap;
-  flex-shrink: 0;
+.pin-icon {
+  color: var(--bl-text-3);
+  margin-left: 6px;
+  vertical-align: -1px;
 }
 
 .post-meta {
   display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  font-size: 0.85rem;
-  color: var(--vp-c-text-3);
-  margin-bottom: 0.4rem;
+  align-items: baseline;
+  gap: 0.5em;
+  margin-top: 4px;
+  font-size: var(--bl-text-meta);
+  color: var(--bl-text-3);
+  font-variant-numeric: tabular-nums;
 }
 
-.post-categories {
-  display: flex;
-  gap: 0.4rem;
-}
-
-.post-category {
-  background: var(--vp-c-brand-soft);
-  color: var(--vp-c-brand-1);
-  padding: 0.1em 0.5em;
-  border-radius: 4px;
-  font-size: 0.8em;
-  font-weight: 500;
-}
-
-.post-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-  margin-bottom: 0.5rem;
-}
-
-.post-tag {
-  background: var(--vp-c-default-soft);
-  padding: 0.15em 0.6em;
-  border-radius: 4px;
-  font-size: 0.8em;
-  color: var(--vp-c-text-2);
+.sep {
+  opacity: 0.7;
 }
 
 .post-excerpt {
-  margin-top: 0.5rem;
-  color: var(--vp-c-text-2);
-  font-size: 0.93rem;
-  line-height: 1.65;
+  margin: 10px 0 0;
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: var(--bl-text-2);
+}
+
+/* 摘要来自 v-html，限制其内部元素不留额外边距 */
+.post-excerpt :deep(p) {
+  margin: 0;
+}
+
+.post-excerpt :deep(a) {
+  color: inherit;
+  pointer-events: none;
 }
 </style>

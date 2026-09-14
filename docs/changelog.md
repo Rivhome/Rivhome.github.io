@@ -9,7 +9,7 @@ import { data as posts } from '.vitepress/posts.data'
 
 // Show posts sorted by updated date or creation date
 const changelogPosts = posts
-  .map(p => ({
+  .map((p) => ({
     ...p,
     sortDate: new Date(p.updated || p.date),
   }))
@@ -22,7 +22,9 @@ const changelogPosts = posts
     <p class="page-summary">共 {{ posts.length }} 篇文章的更新记录</p>
   </div>
 
-  <ChangelogList :posts="changelogPosts" />
+  <div class="changelog-body">
+    <ChangelogList :posts="changelogPosts" />
+  </div>
 
   <div v-if="posts.length === 0" class="empty-state">
     <p>暂无更新记录</p>
@@ -31,36 +33,26 @@ const changelogPosts = posts
 
 <style scoped>
 .changelog-page {
-  max-width: 720px;
-  margin: 0 auto;
-  padding: 2rem 1.5rem 4rem;
-}
-
-.page-header {
-  margin-bottom: 2rem;
+  padding: var(--bl-space-10) 0 0;
 }
 
 .page-header h1 {
-  font-size: 2rem;
-  font-weight: 700;
-  margin: 0 0 0.5rem;
+  margin: 0;
 }
 
 .page-summary {
-  color: var(--vp-c-text-3);
-  font-size: 0.95rem;
-  margin: 0;
+  color: var(--bl-text-3);
+  font-size: var(--bl-text-meta);
+  margin: 4px 0 0;
+}
+
+.changelog-body {
+  margin-top: 2.5rem;
 }
 
 .empty-state {
   text-align: center;
-  padding: 4rem 0;
-  color: var(--vp-c-text-3);
-}
-
-@media (max-width: 768px) {
-  .changelog-page {
-    padding: 1rem 1rem 3rem;
-  }
+  padding: var(--bl-space-20) 0;
+  color: var(--bl-text-3);
 }
 </style>

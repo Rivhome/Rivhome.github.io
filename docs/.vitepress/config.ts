@@ -1,5 +1,10 @@
 import { defineConfig } from 'vitepress'
 
+/** CJK 逐字 + 拉丁单词的分词（索引与查询共用同一函数） */
+function cjkTokenize(text: string): string[] {
+  return text.toLowerCase().match(/[一-鿿]|[a-z0-9]+/g) ?? []
+}
+
 export default defineConfig({
   base: '/',
   lang: 'zh-CN',
@@ -27,29 +32,13 @@ export default defineConfig({
     logo: '/images/my-avatar.jpg',
     siteTitle: "Rivhome's Blog",
 
+    // 精简导航：统计 / 更新日志入口移至页脚与关于页
     nav: [
       { text: '首页', link: '/' },
       { text: '归档', link: '/archives' },
       { text: '分类', link: '/categories' },
       { text: '标签', link: '/tags' },
-      { text: '统计', link: '/stats' },
-      { text: '更新日志', link: '/changelog' },
       { text: '关于', link: '/about' },
-    ],
-
-    sidebar: [
-      {
-        text: '导航',
-        items: [
-          { text: '🏠 首页', link: '/' },
-          { text: '📦 归档', link: '/archives' },
-          { text: '📂 分类', link: '/categories' },
-          { text: '🏷️ 标签', link: '/tags' },
-          { text: '📊 统计', link: '/stats' },
-          { text: '📝 更新日志', link: '/changelog' },
-          { text: '👤 关于', link: '/about' },
-        ],
-      },
     ],
 
     socialLinks: [
@@ -70,6 +59,30 @@ export default defineConfig({
               },
             },
           },
+        },
+        // 默认的索引切分会丢弃第一个锚点标题之前的全部内容，
+        // 没有 markdown 标题的页面（纯组件页、无标题草稿）几乎不被索引。
+        // 这里在渲染索引 HTML 前于 front-matter 之后补一个带锚点的 H1，
+        // 使整页内容都可被搜索。仅影响搜索索引，不影响页面本身。
+        // 注意：env.frontmatter 要到 md.render 之后才可用，需自行解析。
+        _render: (mdSrc, env, md) => {
+          const fmBlock = /^---\r?\n[\s\S]*?\r?\n---(?:\r?\n|$)/.exec(mdSrc)
+          const titleLine = fmBlock
+            ? /^[ \t]*title:[ \t]*(.+?)[ \t]*$/m.exec(fmBlock[0])?.[1]
+            : undefined
+          const title = titleLine?.replace(/^["']|["']$/g, '')
+          const heading = title ? `# ${title}\n\n` : ''
+          const src = fmBlock
+            ? mdSrc.slice(0, fmBlock[0].length) + heading + mdSrc.slice(fmBlock[0].length)
+            : heading + mdSrc
+          const html = md.render(src, env)
+          return env.frontmatter?.search === false ? '' : html
+        },
+        // miniSearch 默认按空白/标点分词，中文整句会成为单个 token，
+        // 导致任意中文子串查询无法命中。这里把 CJK 逐字切分、拉丁按词保留。
+        miniSearch: {
+          options: { tokenize: cjkTokenize },
+          searchOptions: { tokenize: cjkTokenize },
         },
       },
     },
@@ -92,6 +105,11 @@ export default defineConfig({
     math: true,
     image: {
       lazyLoading: true,
+    },
+    // 编辑风代码高亮（随 VitePress 内置 shiki 提供）
+    theme: {
+      light: 'vitesse-light',
+      dark: 'vitesse-dark',
     },
   },
 })

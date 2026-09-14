@@ -6,9 +6,17 @@ aside: false
 
 <script setup lang="ts">
 import { data as tags } from '.vitepress/tags.data'
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 
 const activeTag = ref('')
+
+// 支持 /tags?id=xxx 深链（文章详情页的标签链接会带此参数）
+onMounted(() => {
+  const id = new URLSearchParams(window.location.search).get('id')
+  if (id && tags[id]) {
+    activeTag.value = id
+  }
+})
 
 const filteredTags = computed(() => {
   if (!activeTag.value) return tags
@@ -16,10 +24,6 @@ const filteredTags = computed(() => {
   result[activeTag.value] = tags[activeTag.value]
   return result
 })
-
-function formatDate(date: Date): string {
-  return new Date(date).toLocaleDateString('zh-CN')
-}
 </script>
 
 <div class="tags-page">
@@ -28,21 +32,22 @@ function formatDate(date: Date): string {
     <p class="page-summary">共 {{ Object.keys(tags).length }} 个标签</p>
   </div>
 
-  <div class="tag-cloud-wrapper">
-    <TagCloud :tags="tags" :active-tag="activeTag" @select-tag="(t) => activeTag = t" />
-  </div>
+  <TagCloud :tags="tags" :active-tag="activeTag" @select-tag="(t) => (activeTag = t)" />
 
   <div class="tag-groups" v-if="Object.keys(filteredTags).length > 0">
     <div v-for="(posts, tag) in filteredTags" :key="tag" class="tag-section">
-      <h2>
-        <span class="tag-name"># {{ tag }}</span>
-        <span class="tag-count">{{ posts.length }} 篇</span>
+      <h2 class="section-heading">
+        # {{ tag }}
+        <span class="section-count">{{ posts.length }} 篇</span>
       </h2>
-      <ul class="tag-posts">
-        <li v-for="post in posts" :key="post.url">
-          <time>{{ formatDate(post.date) }}</time>
-          <a :href="post.url">{{ post.title }}</a>
-        </li>
+      <ul class="post-rows">
+        <PostRow
+          v-for="post in posts"
+          :key="post.url"
+          :url="post.url"
+          :title="post.title"
+          :date="post.date"
+        />
       </ul>
     </div>
   </div>
@@ -54,113 +59,47 @@ function formatDate(date: Date): string {
 
 <style scoped>
 .tags-page {
-  max-width: 720px;
-  margin: 0 auto;
-  padding: 2rem 1.5rem 4rem;
-}
-
-.page-header {
-  margin-bottom: 2rem;
+  padding: var(--bl-space-10) 0 0;
 }
 
 .page-header h1 {
-  font-size: 2rem;
-  font-weight: 700;
-  margin: 0 0 0.5rem;
-}
-
-.page-summary {
-  color: var(--vp-c-text-3);
-  font-size: 0.95rem;
   margin: 0;
 }
 
-.tag-cloud-wrapper {
-  margin-bottom: 2rem;
-  padding: 1.25rem;
-  background: var(--vp-c-bg-soft);
-  border-radius: 12px;
-}
-
-.tag-groups {
-  margin-top: 1rem;
+.page-summary {
+  color: var(--bl-text-3);
+  font-size: var(--bl-text-meta);
+  margin: 4px 0 0;
 }
 
 .tag-section {
-  margin-bottom: 2rem;
+  margin-top: 2.5rem;
 }
 
-.tag-section h2 {
+.section-heading {
+  font-size: var(--bl-text-meta);
+  font-weight: 500;
+  color: var(--bl-text-3);
   display: flex;
   align-items: baseline;
-  gap: 0.75rem;
-  font-size: 1.3rem;
-  font-weight: 700;
-  border-bottom: none;
-  padding-bottom: 0;
-  margin-bottom: 0.75rem;
+  gap: 0.5rem;
+  margin: 0 0 var(--bl-space-2);
 }
 
-.tag-name {
-  color: var(--vp-c-brand-1);
-}
-
-.tag-count {
-  font-size: 0.75em;
-  color: var(--vp-c-text-3);
+.section-count {
   font-weight: 400;
+  font-variant-numeric: tabular-nums;
 }
 
-.tag-posts {
+.post-rows {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.tag-posts li {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 0.55rem 0;
-  border-bottom: 1px solid var(--vp-c-divider);
-}
-
-.tag-posts li:last-child {
-  border-bottom: none;
-}
-
-.tag-posts time {
-  font-size: 0.85rem;
-  color: var(--vp-c-text-3);
-  white-space: nowrap;
-  min-width: 6rem;
-}
-
-.tag-posts a {
-  color: var(--vp-c-text-1);
-  text-decoration: none;
-  font-weight: 500;
-  transition: color 0.2s;
-}
-
-.tag-posts a:hover {
-  color: var(--vp-c-brand-1);
-}
-
 .empty-state {
   text-align: center;
-  padding: 4rem 0;
-  color: var(--vp-c-text-3);
-}
-
-@media (max-width: 768px) {
-  .tags-page {
-    padding: 1rem 1rem 3rem;
-  }
-  .tag-posts li {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.2rem;
-  }
+  padding: var(--bl-space-20) 0;
+  color: var(--bl-text-3);
 }
 </style>

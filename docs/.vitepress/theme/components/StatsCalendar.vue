@@ -11,12 +11,13 @@ const props = defineProps<{
   dailyPosts: DailyPost[]
 }>()
 
+// 品牌蓝阶热力图（见 tokens.css --bl-heat-*）
 const levelColors = [
-  'var(--vp-c-bg-soft)',
-  '#9be9a8',
-  '#40c463',
-  '#30a14e',
-  '#216e39',
+  'var(--bl-heat-0)',
+  'var(--bl-heat-1)',
+  'var(--bl-heat-2)',
+  'var(--bl-heat-3)',
+  'var(--bl-heat-4)',
 ]
 
 const weekDays = ['', '一', '', '三', '', '五', '']
@@ -81,7 +82,7 @@ function formatTooltip(date: string, count: number): string {
           v-for="(ml, i) in monthLabels"
           :key="i"
           class="month-label"
-          :style="{ gridColumn: ml.col + 2 }"
+          :style="{ left: `${24 + ml.col * 15}px` }"
         >{{ ml.label }}</span>
       </div>
     </div>
@@ -90,21 +91,15 @@ function formatTooltip(date: string, count: number): string {
         <span v-for="(d, i) in weekDays" :key="i" class="weekday-label">{{ d }}</span>
       </div>
       <div class="calendar-grid" v-if="weeks.length > 0">
-        <div
-          v-for="week in weeks"
-          :key="week[0]?.date || Math.random()"
-          class="week-row"
-        >
+        <div v-for="(week, wi) in weeks" :key="wi" class="week-row">
           <div
-            v-for="day in week"
-            :key="day.date || Math.random()"
+            v-for="(day, di) in week"
+            :key="di"
             class="day-cell"
             :class="{ empty: day.level < 0 }"
             :style="{ background: day.level >= 0 ? levelColors[day.level] : 'transparent' }"
             :title="day.date ? formatTooltip(day.date, day.count) : ''"
-          >
-            <span class="day-tooltip" v-if="day.date && day.count > 0">{{ day.date }}: {{ day.count }}篇</span>
-          </div>
+          />
         </div>
       </div>
     </div>
@@ -128,19 +123,22 @@ function formatTooltip(date: string, count: number): string {
 }
 
 .calendar-header {
-  margin-bottom: 0.5rem;
+  margin-bottom: 4px;
   position: relative;
-  height: 22px;
+  height: 18px;
 }
 
+/* 月份标签绝对定位：24px 为星期列宽，每周列宽 12px + 3px 间距 = 15px */
 .month-labels {
-  display: flex;
-  padding-left: 36px;
+  position: relative;
+  height: 100%;
 }
 
 .month-label {
+  position: absolute;
+  top: 0;
   font-size: 0.7rem;
-  color: var(--vp-c-text-3);
+  color: var(--bl-text-3);
   white-space: nowrap;
 }
 
@@ -159,7 +157,7 @@ function formatTooltip(date: string, count: number): string {
 
 .weekday-label {
   font-size: 0.65rem;
-  color: var(--vp-c-text-3);
+  color: var(--bl-text-3);
   height: 12px;
   line-height: 12px;
   width: 20px;
@@ -183,33 +181,10 @@ function formatTooltip(date: string, count: number): string {
   height: 12px;
   border-radius: 2px;
   position: relative;
-  cursor: pointer;
-  transition: outline 0.1s;
 }
 
 .day-cell.empty {
   background: transparent !important;
-}
-
-.day-cell:hover .day-tooltip {
-  display: block;
-}
-
-.day-tooltip {
-  display: none;
-  position: absolute;
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--vp-c-bg);
-  color: var(--vp-c-text-1);
-  font-size: 0.7rem;
-  padding: 0.2em 0.5em;
-  border-radius: 4px;
-  white-space: nowrap;
-  border: 1px solid var(--vp-c-divider);
-  z-index: 10;
-  pointer-events: none;
 }
 
 .calendar-legend {
@@ -219,7 +194,7 @@ function formatTooltip(date: string, count: number): string {
   gap: 3px;
   margin-top: 0.75rem;
   font-size: 0.7rem;
-  color: var(--vp-c-text-3);
+  color: var(--bl-text-3);
 }
 
 .legend-cell {

@@ -1,0 +1,213 @@
+/* ==========================================================
+   Prose — 文章正文排版（.vp-doc）
+   编辑风核心：字为骨架，克制的分隔，充分的留白
+   ========================================================== */
+
+.vp-doc {
+  font-size: var(--bl-text-body);
+  line-height: var(--bl-leading-body);
+  letter-spacing: 0.01em;
+  color: var(--bl-text-1);
+  /* 中文正文避免两端对齐产生的空洞，保持默认左对齐 */
+  word-break: break-word;
+}
+
+/* --- 标题层级 --- */
+
+.vp-doc h1 {
+  font-size: var(--bl-text-h1);
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: var(--bl-tracking-tight);
+  margin-top: 0;
+  margin-bottom: var(--bl-space-6);
+}
+
+.vp-doc h2 {
+  font-size: var(--bl-text-h2);
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: var(--bl-tracking-tight);
+  /* 章节节奏：上方大留白 + 1px 细线分隔 */
+  margin-top: 4rem;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--bl-divider);
+}
+
+.vp-doc h3 {
+  font-size: var(--bl-text-h3);
+  font-weight: 600;
+  line-height: 1.45;
+  margin-top: 3rem;
+  margin-bottom: 1rem;
+}
+
+.vp-doc h4,
+.vp-doc h5,
+.vp-doc h6 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+/* 标题锚点符号弱化 */
+.vp-doc .header-anchor {
+  color: var(--bl-text-3);
+  font-weight: 400;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.vp-doc .header-anchor:focus-visible,
+.vp-doc h1:hover .header-anchor,
+.vp-doc h2:hover .header-anchor,
+.vp-doc h3:hover .header-anchor,
+.vp-doc h4:hover .header-anchor {
+  opacity: 1;
+}
+
+/* --- 段落与列表 --- */
+
+.vp-doc p {
+  margin: 0 0 1.375em;
+}
+
+.vp-doc ul,
+.vp-doc ol {
+  margin: 0 0 1.375em;
+  padding-left: 1.5em;
+}
+
+.vp-doc li {
+  margin: 0.375em 0;
+}
+
+.vp-doc li::marker {
+  color: var(--bl-text-3);
+}
+
+.vp-doc li > ul,
+.vp-doc li > ol {
+  margin-bottom: 0;
+}
+
+/* --- 链接 --- */
+
+.vp-doc a {
+  color: var(--bl-accent);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.vp-doc a:hover {
+  color: var(--bl-accent-hover);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+
+/* --- 引用：文字缩进 + 品牌色细线 --- */
+
+.vp-doc blockquote {
+  margin: 1.75em 0;
+  padding: 0.1em 0 0.1em 1.25em;
+  border-left: 2px solid var(--bl-brand-300);
+  background: transparent;
+  color: var(--bl-text-2);
+}
+
+.vp-doc blockquote p {
+  margin: 0.5em 0;
+}
+
+.vp-doc blockquote p:first-child {
+  margin-top: 0;
+}
+
+.vp-doc blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+/* --- 行内代码 --- */
+
+.vp-doc :not(pre) > code {
+  font-size: 0.875em;
+  padding: 0.15em 0.4em;
+  border-radius: var(--bl-radius-sm);
+  background: var(--bl-bg-soft);
+  color: var(--bl-text-1);
+}
+
+/* --- 代码块 --- */
+
+.vp-doc div[class*='language-'] {
+  border-radius: var(--bl-radius-md);
+  margin: 1.75em 0;
+}
+
+.vp-doc div[class*='language-'] code {
+  font-size: 0.875em;
+}
+
+.vp-doc [class*='language-'] code,
+.vp-doc [class*='language-'] pre {
+  text-shadow: none;
+}
+
+/* lang 标签 */
+.vp-doc div[class*='language-'] .lang {
+  color: var(--bl-text-3);
+  opacity: 1;
+  font-weight: 400;
+}
+
+/* --- 图片 --- */
+
+.vp-doc img {
+  display: block;
+  max-width: 100%;
+  margin: 2em auto;
+  border-radius: 0;
+}
+
+/* --- 表格：只留横向分隔线 --- */
+
+.vp-doc table {
+  width: 100%;
+  margin: 1.75em 0;
+  border-collapse: collapse;
+  font-size: 0.9375em;
+  display: table;
+}
+
+.vp-doc th,
+.vp-doc td {
+  padding: 0.6em 0.75em;
+  border-bottom: 1px solid var(--bl-divider);
+  text-align: left;
+}
+
+.vp-doc th {
+  font-weight: 600;
+  color: var(--bl-text-2);
+}
+
+/* --- 分隔线：居中短横 --- */
+
+.vp-doc hr {
+  border: none;
+  height: 1px;
+  width: 4rem;
+  margin: 3rem auto;
+  background: var(--bl-divider);
+}
+
+/* --- 数学公式 --- */
+
+.vp-doc .katex-display {
+  margin: 1.75em 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+}

@@ -1,0 +1,72 @@
+/* ==========================================================
+   Base — 全局元素级基础样式
+   ========================================================== */
+
+/* 主题切换时的平滑过渡 */
+html {
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* 移动端点击无高亮闪块 */
+html {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* 选中文字：品牌色浅底 */
+::selection {
+  background: var(--bl-brand-100);
+  color: var(--bl-text-1);
+}
+
+.dark ::selection {
+  background: rgba(143, 166, 230, 0.28);
+  color: var(--bl-text-1);
+}
+
+/* 键盘焦点可见性 */
+:focus-visible {
+  outline: 2px solid var(--bl-accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* 锚点跳转时为固定导航留出空间 */
+.vp-doc h1[id],
+.vp-doc h2[id],
+.vp-doc h3[id],
+.vp-doc h4[id],
+.vp-doc h5[id],
+.vp-doc h6[id] {
+  scroll-margin-top: calc(var(--vp-nav-height) + 24px);
+}
+
+/* 日期/统计数字等宽对齐 */
+.tabular-nums,
+time,
+.bl-meta {
+  font-variant-numeric: tabular-nums;
+}
+
+/* 细滚动条 */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--bl-border-strong);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--bl-text-3);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--bl-border-strong) transparent;
+}

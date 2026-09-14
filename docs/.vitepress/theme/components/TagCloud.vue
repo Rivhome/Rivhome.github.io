@@ -21,81 +21,70 @@ const tagList = computed<TagInfo[]>(() => {
     .sort((a, b) => b.count - a.count)
 })
 
-const maxCount = computed(() => {
-  if (tagList.value.length === 0) return 1
-  return Math.max(...tagList.value.map(t => t.count))
-})
-
-function fontSize(count: number): string {
-  const min = 0.75
-  const max = 1.5
-  if (maxCount.value <= 1) return `${max}rem`
-  return `${min + ((count - 1) / (maxCount.value - 1)) * (max - min)}rem`
-}
-
-function isActive(tag: string): boolean {
-  return props.activeTag === tag
-}
-
 function selectTag(tag: string) {
-  if (props.activeTag === tag) {
-    emit('select-tag', '')
-  } else {
-    emit('select-tag', tag)
-  }
+  emit('select-tag', props.activeTag === tag ? '' : tag)
 }
 </script>
 
 <template>
-  <div class="tag-cloud" v-if="tagList.length > 0">
-    <span
+  <nav class="tag-filters" aria-label="标签筛选" v-if="tagList.length > 0">
+    <button
+      class="filter-item"
+      :class="{ active: !activeTag }"
+      @click="emit('select-tag', '')"
+    >
+      全部
+    </button>
+    <button
       v-for="tag in tagList"
       :key="tag.name"
-      class="tag-item"
-      :class="{ active: isActive(tag.name) }"
-      :style="{ fontSize: fontSize(tag.count) }"
+      class="filter-item"
+      :class="{ active: activeTag === tag.name }"
       @click="selectTag(tag.name)"
     >
-      {{ tag.name }}
-      <sup class="tag-count">{{ tag.count }}</sup>
-    </span>
-  </div>
+      #{{ tag.name }} <sup class="count">{{ tag.count }}</sup>
+    </button>
+  </nav>
 </template>
 
 <style scoped>
-.tag-cloud {
+.tag-filters {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.6rem 0.25rem;
-  justify-content: center;
-  padding: 0.5rem 0;
+  gap: 2px var(--bl-space-4);
+  margin-bottom: var(--bl-space-8);
 }
 
-.tag-item {
-  display: inline-flex;
-  align-items: flex-start;
-  padding: 0.2em 0.6em;
-  border-radius: 6px;
+.filter-item {
+  appearance: none;
+  border: none;
+  background: none;
+  padding: 2px 0;
+  font-family: inherit;
+  font-size: var(--bl-text-small);
+  color: var(--bl-text-2);
   cursor: pointer;
-  color: var(--vp-c-text-2);
-  transition: all 0.2s;
-  white-space: nowrap;
-  line-height: 1.5;
+  border-bottom: 1px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
 }
 
-.tag-item:hover {
-  background: var(--vp-c-default-soft);
-  color: var(--vp-c-brand-1);
+.filter-item:hover {
+  color: var(--bl-accent);
 }
 
-.tag-item.active {
-  background: var(--vp-c-brand-1);
-  color: #fff;
+.filter-item.active {
+  color: var(--bl-accent);
+  border-bottom-color: var(--bl-accent);
 }
 
-.tag-count {
-  font-size: 0.6em;
-  opacity: 0.7;
-  margin-left: 1px;
+.count {
+  font-size: 0.75em;
+  color: var(--bl-text-3);
+  margin-left: 2px;
+}
+
+.filter-item.active .count {
+  color: var(--bl-accent);
+  opacity: 0.75;
 }
 </style>

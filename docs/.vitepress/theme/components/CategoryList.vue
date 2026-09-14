@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { computed } from 'vue'
+
 const props = defineProps<{
   categories: Record<string, Array<{ title: string; url: string; date: Date; tags: string[] }>>
   activeCategory?: string
@@ -8,84 +10,70 @@ const emit = defineEmits<{
   'select-category': [category: string]
 }>()
 
-const sortedCategories = Object.entries(props.categories).sort((a, b) => b[1].length - a[1].length)
-
-const colors = ['#3b5998', '#e74c3c', '#27ae60', '#f39c12', '#8e44ad', '#16a085', '#d35400', '#2980b9']
-
-function categoryColor(index: number): string {
-  return colors[index % colors.length]
-}
-
-function selectCategory(cat: string) {
-  emit('select-category', props.activeCategory === cat ? '' : cat)
-}
+const sortedCategories = computed(() =>
+  Object.entries(props.categories).sort((a, b) => b[1].length - a[1].length),
+)
 </script>
 
 <template>
-  <div class="category-grid">
-    <div
-      v-for="(entry, index) in sortedCategories"
-      :key="entry[0]"
-      class="category-card"
-      :class="{ active: activeCategory === entry[0] }"
-      @click="selectCategory(entry[0])"
+  <nav class="category-filters" aria-label="分类筛选">
+    <button
+      class="filter-item"
+      :class="{ active: !activeCategory }"
+      @click="emit('select-category', '')"
     >
-      <div class="category-accent" :style="{ background: categoryColor(index) }" />
-      <div class="category-content">
-        <span class="category-name">{{ entry[0] }}</span>
-        <span class="category-count">{{ entry[1].length }} 篇</span>
-      </div>
-    </div>
-  </div>
+      全部
+    </button>
+    <button
+      v-for="[name, list] in sortedCategories"
+      :key="name"
+      class="filter-item"
+      :class="{ active: activeCategory === name }"
+      @click="emit('select-category', activeCategory === name ? '' : name)"
+    >
+      {{ name }} <sup class="count">{{ list.length }}</sup>
+    </button>
+  </nav>
 </template>
 
 <style scoped>
-.category-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 0.75rem;
+.category-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px var(--bl-space-4);
+  margin-bottom: var(--bl-space-8);
 }
 
-.category-card {
-  display: flex;
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 8px;
-  overflow: hidden;
+.filter-item {
+  appearance: none;
+  border: none;
+  background: none;
+  padding: 2px 0;
+  font-family: inherit;
+  font-size: var(--bl-text-small);
+  color: var(--bl-text-2);
   cursor: pointer;
-  transition: all 0.2s;
+  border-bottom: 1px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
 }
 
-.category-card:hover {
-  border-color: var(--vp-c-brand-1);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+.filter-item:hover {
+  color: var(--bl-accent);
 }
 
-.category-card.active {
-  border-color: var(--vp-c-brand-1);
-  background: var(--vp-c-brand-soft);
+.filter-item.active {
+  color: var(--bl-accent);
+  border-bottom-color: var(--bl-accent);
 }
 
-.category-accent {
-  width: 4px;
-  flex-shrink: 0;
+.count {
+  font-size: 0.75em;
+  color: var(--bl-text-3);
+  margin-left: 2px;
 }
 
-.category-content {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  padding: 0.75rem 1rem;
-}
-
-.category-name {
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: var(--vp-c-text-1);
-}
-
-.category-count {
-  font-size: 0.8rem;
-  color: var(--vp-c-text-3);
+.filter-item.active .count {
+  color: var(--bl-accent);
+  opacity: 0.75;
 }
 </style>
