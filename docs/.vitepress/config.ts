@@ -18,7 +18,10 @@ export default defineConfig({
     hostname: 'https://rivhome.github.io',
   },
 
-  lastUpdated: true,
+  // 关闭内置 lastUpdated：它取 md 文件的 git 提交时间，
+  // 对关于/归档等页面无意义且数值误导；文章更新时间改由
+  // front-matter 的 updated 字段驱动（见 PostMeta 组件）
+  lastUpdated: false,
 
   head: [
     ['link', { rel: 'icon', href: '/favicon.ico' }],
@@ -93,7 +96,6 @@ export default defineConfig({
     },
 
     docFooter: { prev: '上一篇', next: '下一篇' },
-    lastUpdated: { text: '最后更新于' },
     darkModeSwitchLabel: '外观',
     lightModeSwitchTitle: '切换到浅色模式',
     darkModeSwitchTitle: '切换到深色模式',

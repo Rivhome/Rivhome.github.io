@@ -28,6 +28,11 @@ const title = computed(() => post.value?.title ?? (frontmatter.value.title as st
         <span>{{ post.readingTime }} 分钟</span>
       </template>
 
+      <template v-if="post.updated">
+        <span class="sep">·</span>
+        <span>更新于 {{ formatDate(post.updated) }}</span>
+      </template>
+
       <template v-if="post.categories.length">
         <span class="sep">·</span>
         <a
