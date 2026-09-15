@@ -12,7 +12,7 @@ interface TagMap {
 declare const data: TagMap
 export { data }
 
-export default createContentLoader('posts/*.md', {
+export default createContentLoader('posts/**/*.md', {
   transform(raw): TagMap {
     const tagMap: TagMap = {}
     raw

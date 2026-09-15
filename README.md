@@ -46,10 +46,13 @@ docs/
 ├── categories.md                     # 分类页面
 ├── stats.md                          # 统计页面
 ├── changelog.md                      # 更新日志
-├── posts/                            # 博客文章
-│   ├── 如何搭建个人博客-hexo-githubpages.md
-│   ├── markdown-写作最佳实践.md
-│   └── ...
+├── posts/                            # 博客文章（一个分类一个文件夹）
+│   ├── 算法通关/                      #   分类：算法通关
+│   │   └── 1.递归与Master公式.md
+│   ├── 生活/                          #   分类：生活
+│   │   └── 我的第一篇博客.md
+│   └── 站点/                          #   分类：站点
+│       └── 排版与写作示例.md
 ├── .vitepress/
 │   ├── config.ts                     # VitePress 配置（导航/侧边栏/搜索等）
 │   ├── posts.data.ts                 # 文章数据加载器
@@ -87,7 +90,7 @@ docs/
 
 ## 写文章
 
-在 `docs/posts/` 下创建 `.md` 文件，文件名即文章 slug：
+在 `docs/posts/<分类>/` 下创建 `.md` 文件（**一个分类一个文件夹**，文件夹名 = 主分类；front-matter 的 `categories` 仍是网站展示的依据），文件名即文章 slug：
 
 ```yaml
 ---

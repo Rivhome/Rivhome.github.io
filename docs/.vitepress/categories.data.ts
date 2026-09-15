@@ -13,7 +13,7 @@ interface CategoryMap {
 declare const data: CategoryMap
 export { data }
 
-export default createContentLoader('posts/*.md', {
+export default createContentLoader('posts/**/*.md', {
   transform(raw): CategoryMap {
     const catMap: CategoryMap = {}
     raw

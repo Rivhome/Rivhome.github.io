@@ -25,7 +25,7 @@ function toArray(v: unknown): string[] {
   return Array.isArray(v) ? (v as string[]) : [v as string]
 }
 
-export default createContentLoader('posts/*.md', {
+export default createContentLoader('posts/**/*.md', {
   excerpt: true,
   transform(raw): Post[] {
     return raw
