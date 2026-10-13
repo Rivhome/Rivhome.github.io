@@ -1,15 +1,18 @@
 <script setup lang="ts">
+import { SITE } from '../../site'
+
 const year = new Date().getFullYear()
 </script>
 
 <template>
   <footer class="site-footer">
     <div class="footer-inner">
-      <span class="copyright">© {{ year }} Rivhome</span>
+      <span class="copyright">© {{ year }} {{ SITE.author }}</span>
       <nav class="footer-links" aria-label="页脚导航">
-        <a href="/stats">统计</a>
-        <a href="/changelog">更新日志</a>
-        <a href="https://github.com/Rivhome" target="_blank" rel="noopener">GitHub</a>
+        <a href="/series/">合集</a>
+        <a href="/tags/">标签</a>
+        <a :href="`/${SITE.feedFile}`">RSS</a>
+        <a :href="SITE.github" target="_blank" rel="noopener">GitHub</a>
       </nav>
     </div>
   </footer>

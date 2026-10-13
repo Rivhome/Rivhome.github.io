@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://rivhome.github.io/sitemap.xml

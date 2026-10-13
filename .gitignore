@@ -1,6 +1,7 @@
 node_modules/
 docs/.vitepress/dist/
 docs/.vitepress/cache/
+exports/
 *.log
 .DS_Store
 Thumbs.db

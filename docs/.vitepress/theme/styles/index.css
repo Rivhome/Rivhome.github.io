@@ -6,6 +6,7 @@
 @import './tokens.css';
 @import './base.css';
 @import './prose.css';
+@import './components.css';
 
 /* ==========================================
    内容列宽
@@ -22,10 +23,13 @@
   max-width: var(--bl-width-content) !important;
 }
 
-/* 例外：统计页热力图需要更宽画布 */
-.VPDoc:has(.stats-page) .container,
-.VPDoc:has(.stats-page) .content-container {
-  max-width: var(--bl-width-wide) !important;
+/* 目录（outline）：中文小标题较长，允许换行而不是被截断成省略号 */
+.VPDoc .aside .outline-link {
+  white-space: normal;
+  text-overflow: clip;
+  line-height: 1.5;
+  padding-top: 3px;
+  padding-bottom: 3px;
 }
 
 @media (max-width: 768px) {
@@ -80,9 +84,9 @@
 @media print {
   .VPNav,
   .VPNavScreen,
-  .ReadingProgress,
-  .BackToTop,
-  .SiteFooter,
+  .reading-progress,
+  .back-to-top,
+  .site-footer,
   .giscus-wrapper {
     display: none !important;
   }

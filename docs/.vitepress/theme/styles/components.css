@@ -1,0 +1,65 @@
+/* ==========================================================
+   组件驱动页面（layout: page 的合集/标签页）与首页共用的排版
+   ----------------------------------------------------------
+   这些页面不经过 .vp-doc，因此不能依赖 prose.css，
+   需要在这里自足地定义页面级排版。
+   ========================================================== */
+
+.blog-page {
+  max-width: var(--bl-width-content);
+  margin: 0 auto;
+  padding: var(--bl-space-14) 24px 0;
+}
+
+/* layout: page 的 md 正文（标题 + 引言）在此自足排版 */
+.blog-page h1 {
+  font-size: var(--bl-text-h1);
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: var(--bl-tracking-tight);
+  margin: 0 0 var(--bl-space-3);
+  color: var(--bl-text-1);
+}
+
+.blog-page > p {
+  margin: 0 0 var(--bl-space-8);
+  font-size: var(--bl-text-body);
+  line-height: 1.85;
+  color: var(--bl-text-2);
+}
+
+/* 小节标题：期刊式小标签 */
+.blog-section-heading {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin: 0 0 var(--bl-space-2);
+  font-size: var(--bl-text-meta);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--bl-text-3);
+}
+
+.blog-empty {
+  margin: var(--bl-space-10) 0;
+  padding: var(--bl-space-10) var(--bl-space-4);
+  text-align: center;
+  font-size: var(--bl-text-small);
+  line-height: 1.8;
+  color: var(--bl-text-3);
+  border: 1px dashed var(--bl-border-strong);
+}
+
+.blog-empty p {
+  margin: 0 0 0.5em;
+}
+
+.blog-empty p:last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+  .blog-page {
+    padding: var(--bl-space-8) 20px 0;
+  }
+}

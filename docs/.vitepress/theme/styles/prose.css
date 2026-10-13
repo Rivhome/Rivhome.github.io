@@ -156,11 +156,13 @@
   text-shadow: none;
 }
 
-/* lang 标签 */
+/* lang 标签：代码块左上/右上角，写成 ```ts [file.ts] 时显示文件名 */
 .vp-doc div[class*='language-'] .lang {
   color: var(--bl-text-3);
   opacity: 1;
   font-weight: 400;
+  font-family: var(--bl-font-mono);
+  font-size: 0.75rem;
 }
 
 /* --- 图片 --- */
@@ -170,6 +172,43 @@
   max-width: 100%;
   margin: 2em auto;
   border-radius: 0;
+}
+
+/* --- 图片图注（由 lib/markdown-figure.ts 生成 figure） --- */
+
+.vp-doc .blog-figure {
+  margin: 2em 0;
+  text-align: center;
+}
+
+.vp-doc .blog-figure img {
+  margin: 0 auto;
+}
+
+.vp-doc .blog-figure figcaption {
+  margin-top: 0.75em;
+  font-size: var(--bl-text-meta);
+  line-height: 1.7;
+  color: var(--bl-text-3);
+}
+
+/* --- 折叠块（::: details）：与提示容器统一为编辑风细边框 --- */
+
+.vp-doc .custom-block.details {
+  background: var(--bl-bg-alt);
+  border: 1px solid var(--bl-divider);
+  border-radius: var(--bl-radius-sm);
+  padding: 0.75em 1em;
+  font-size: 0.9375em;
+}
+
+.vp-doc .custom-block.details summary {
+  color: var(--bl-text-2);
+  font-weight: 500;
+}
+
+.vp-doc .custom-block.details > p {
+  margin: 0.75em 0 0;
 }
 
 /* --- 表格：只留横向分隔线 --- */

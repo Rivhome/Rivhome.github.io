@@ -1,59 +1,20 @@
-import { createContentLoader } from 'vitepress'
-import { countWordsOf, readPostFile, readingTimeOf, resolveDate } from './lib/postfile'
+import { createContentLoader, type ContentData } from 'vitepress'
+import { publishedOnly, sortForList, toPosts } from './lib/posts'
+import type { Post } from './lib/types'
 
-export interface Post {
-  title: string
-  url: string
-  date: Date
-  updated?: Date
-  excerpt: string
-  tags: string[]
-  categories: string[]
-  pinned: boolean
-  /** 正文字数（中文按字符、英文按单词） */
-  wordCount: number
-  /** 预计阅读时长（分钟） */
-  readingTime: number
-  cover?: string
-}
+export type { Post }
 
 declare const data: Post[]
 export { data }
 
-function toArray(v: unknown): string[] {
-  if (!v) return []
-  return Array.isArray(v) ? (v as string[]) : [v as string]
-}
-
-export default createContentLoader('posts/**/*.md', {
+/**
+ * 列表页（首页 / 标签页 / 合集页）使用的文章数据：
+ * 排除 hidden，并保持「置顶优先 + 日期倒序」的顺序。
+ */
+export default createContentLoader<Post[]>('posts/**/*.md', {
+  includeSrc: true,
   excerpt: true,
   transform(raw): Post[] {
-    return raw
-      // archived: true 的文章不进入任何列表数据（页面本身仍可直接访问）
-      .filter((r) => r.frontmatter.archived !== true)
-      .map(({ url, frontmatter, excerpt }) => {
-        const file = readPostFile(url)
-        const wordCount = file ? countWordsOf(file.content) : 0
-
-        return {
-          title: (frontmatter.title as string) || url,
-          url,
-          date: resolveDate(frontmatter.date, file?.mtime ?? new Date(), url),
-          updated: frontmatter.updated
-            ? resolveDate(frontmatter.updated, file?.mtime ?? new Date(), url)
-            : undefined,
-          excerpt: excerpt || '',
-          tags: toArray(frontmatter.tags),
-          categories: toArray(frontmatter.categories),
-          pinned: frontmatter.pinned === true,
-          wordCount,
-          readingTime: readingTimeOf(wordCount),
-          cover: (frontmatter.cover as string) || undefined,
-        }
-      })
-      .sort((a, b) => {
-        if (a.pinned !== b.pinned) return a.pinned ? -1 : 1
-        return b.date.getTime() - a.date.getTime()
-      })
+    return sortForList(publishedOnly(toPosts(raw as ContentData[])))
   },
 })
